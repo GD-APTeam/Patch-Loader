@@ -22,3 +22,12 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
 2. Put the latest release of [Patch-Loader](https://github.com/SMJSGaming/Patch-Loader/releases/latest) in the `adaf-dll` directory
 3. Make a file called `patches.json` in the root directory of the game
 4. Configure it using the structure [above](#structure)
+
+## Building
+
+Simply run the [shell file](compile.sh) to build the DLL.
+
+## Credits
+
+- [HJfod](https://github.com/HJfod): Fact checking the bindings
+- [Matcool](https://github.com/matcool): Providing the base gd.h/minhook implementation example
