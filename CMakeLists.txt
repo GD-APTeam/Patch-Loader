@@ -14,18 +14,7 @@ endif()
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    libraries/minhook/include
-    libraries/gd.h/include
-    libraries/gd.h/
-    libraries/cocos-headers/cocos2dx/
-    libraries/cocos-headers/cocos2dx/include
-    libraries/cocos-headers/cocos2dx/kazmath/include
-    libraries/cocos-headers/cocos2dx/platform/win32
-    libraries/cocos-headers/cocos2dx/platform/third_party/win32
-    libraries/cocos-headers/cocos2dx/platform/third_party/win32/OGLES
-)
+target_include_directories(${PROJECT_NAME} PRIVATE libraries/minhook/include)
 
 add_subdirectory(libraries/minhook)
 target_link_libraries(${PROJECT_NAME} minhook)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/libraries/cocos-headers/cocos2dx/libcocos2d.lib)

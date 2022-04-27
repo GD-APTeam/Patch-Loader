@@ -1,11 +1,12 @@
 #ifndef __APPDELEGATE_H__
 #define __APPDELEGATE_H__
 
-#include <gd.h>
+#include <windows.h>
+
+uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleA(0));
 
 namespace gd {
-	#pragma runtime_checks("s", off)
-    class AppDelegate : public cocos2d::CCApplication {
+    class AppDelegate {
     public:
         virtual bool applicationDidFinishLaunching() {
             return reinterpret_cast<bool(__thiscall*)(AppDelegate*)>(base + 0x3CBB0)(this);
@@ -26,6 +27,5 @@ namespace gd {
             return reinterpret_cast<void(__thiscall*)(AppDelegate*)>(base + 0x3D5E0)(this);
         }
     };
-    #pragma runtime_checks("s", restore)
 }
 #endif
