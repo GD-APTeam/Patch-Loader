@@ -11,7 +11,8 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
   {
     "address": uint32_t, // The start memory address location of the patch
     "bytes": uint8_t[], // The bytes to write to the memory address
-    "cocos": bool|undefined // If the patch should be applied to cocos2d.dll
+    "cocos": bool|undefined, // If the patch should be applied to cocos2d.dll
+    "disabled": bool|undefined, // If the patch should be ignored
   }
 ]
 ```
