@@ -11,9 +11,6 @@
 #include <fstream>
 
 using std::uintptr_t;
-
-// since everything in cocos2d starts with CC, there is no chance
-// for any collision, so it's safe to do this (it also makes using cocos a lot nicer imo)
 using namespace nlohmann;
 
 #endif

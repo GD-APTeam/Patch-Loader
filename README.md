@@ -30,4 +30,4 @@ Simply run the [shell file](compile.sh) to build the DLL.
 ## Credits
 
 - [HJfod](https://github.com/HJfod): Fact checking the bindings
-- [Matcool](https://github.com/matcool): Providing the base gd.h/minhook implementation example
+- [Matcool](https://github.com/matcool): Providing the base minhook implementation example
