@@ -63,9 +63,9 @@ void PatchCell::setIndex(unsigned int index) {
 }
 
 void PatchCell::onClick(CCObject* object) {
-    if (gd::patches[this->index].disabled = reinterpret_cast<CCMenuItemToggler*>(object)->isToggled()) {
-        gd::patches[this->index].revert();
+    if (gd::patches[this->index]->disabled = reinterpret_cast<CCMenuItemToggler*>(object)->isToggled()) {
+        gd::patches[this->index]->revert();
     } else {
-        gd::patches[this->index].apply();
+        gd::patches[this->index]->apply();
     }
 }

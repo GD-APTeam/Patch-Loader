@@ -23,7 +23,7 @@ bool PatchesBrowser::init() {
 void PatchesBrowser::customSetup() {
     CCArray* ccPatches = CCArray::create();
 
-    for (Patch patch : gd::patches) {
+    for (std::shared_ptr<PatchBase> patch : gd::patches) {
         ccPatches->addObject(PatchObject::create(patch));
     }
 

@@ -3,13 +3,13 @@
 #include "../includes.hpp"
 
 struct PatchObject : CCObject {
-    static PatchObject* create(Patch patch);
+    static PatchObject* create(std::shared_ptr<PatchBase> patch);
     
     std::string getName();
     std::string getDescription();
     bool isDisabled();
 protected:
-    Patch patch;
+    std::shared_ptr<PatchBase> patch;
 
-    PatchObject(Patch patch);
+    PatchObject(std::shared_ptr<PatchBase> patch);
 };

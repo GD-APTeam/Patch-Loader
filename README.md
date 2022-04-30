@@ -15,6 +15,12 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
     "bytes": byte[], // The bytes to write to the memory address
     "cocos": bool|undefined|null, // If the patch should be applied to cocos2d.dll
     "disabled": bool|undefined|null, // If the patch should be ignored
+    "restart": bool|undefined|null, // If the patch requires a restart
+    // A patch collection, this will group multiple patches together
+    // Keep in mind that patches within cannot be toggled individually in-game
+    // However they can be toggled in the configuration file
+    // address, bytes and cocos will be ignored if patches is set
+    "patches": this|undefined|null
   }
 ]
 ```

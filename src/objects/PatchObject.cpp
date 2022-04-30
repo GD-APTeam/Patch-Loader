@@ -1,6 +1,6 @@
 #include "PatchObject.hpp"
 
-PatchObject* PatchObject::create(Patch patch) {
+PatchObject* PatchObject::create(std::shared_ptr<PatchBase> patch) {
     PatchObject* object = new PatchObject(patch);
 
     if (object) {
@@ -15,15 +15,15 @@ PatchObject* PatchObject::create(Patch patch) {
 }
 
 std::string PatchObject::getName() {
-    return this->patch.name;
+    return this->patch->name;
 }
 
 std::string PatchObject::getDescription() {
-    return this->patch.description;
+    return this->patch->description;
 }
 
 bool PatchObject::isDisabled() {
-    return this->patch.disabled;
+    return this->patch->disabled;
 }
 
-PatchObject::PatchObject(Patch patch): patch(patch) { }
+PatchObject::PatchObject(std::shared_ptr<PatchBase> patch): patch(patch) { }
