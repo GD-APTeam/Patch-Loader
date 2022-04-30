@@ -1,0 +1,43 @@
+[
+  {
+    "name": "Alpha Pixel Encoder Fix",
+    "description": "Fixes the default encoder, improving the visuals and performance.",
+    "address": 249335,
+    "bytes": [ 0 ],
+    "disabled": false
+  },
+  {
+    "name": "No interval HSV slider",
+    "description": "Sets the interval on the HSV slider to 0.01 per step.",
+    "address": 2691079,
+    "bytes": [ 51 ],
+    "disabled": false
+  },
+  {
+    "name": "No UFO cap",
+    "description": "Removes the cap on the UFO.",
+    "address": 2056839,
+    "bytes": [ 0 ],
+    "disabled": false
+  },
+  {
+    "name": "Just... don't",
+    "patches": [
+      {
+        "name": "Force Visibility",
+        "description": "Shows all hidden sprites.",
+        "address": 395088,
+        "cocos": true,
+        "bytes": [ 194, 4, 0 ]
+      },
+      {
+        "name": "No Position",
+        "description": "Removes all the position overwrites.",
+        "address": 868592,
+        "cocos": true,
+        "bytes": [ 194, 4, 0 ]
+      }
+    ],
+    "disabled": true
+  }
+]
