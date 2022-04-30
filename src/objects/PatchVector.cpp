@@ -16,13 +16,13 @@ PatchVector::PatchVector(json patches) {
 
     for (json patch : patches["patches"]) {
         if (PatchVector::isValid(patch)) {
-            std::shared_ptr<PatchVector> patchVector = std::shared_ptr<PatchVector>(new PatchVector(patch));
+            std::shared_ptr<PatchVector> patchVector = std::make_shared<PatchVector>(PatchVector(patch));
 
             if (patchVector->patches.size()) {
                 this->patches.push_back(patchVector);
             }
         } else if (Patch::isValid(patch)) {
-            std::shared_ptr<Patch> patchObject = std::shared_ptr<Patch>(new Patch(patch));
+            std::shared_ptr<Patch> patchObject = std::make_shared<Patch>(Patch(patch));
 
             if (patchObject->bytes.size()) {
                 this->patches.push_back(patchObject);
