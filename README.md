@@ -9,10 +9,12 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
 ```jsonc
 [
   {
+    "name": string, // The name which should be shown in the patch browser
+    "description": string|undefined|null, // The description which should be shown in the patch browser
     "address": uint32_t, // The start memory address location of the patch
-    "bytes": uint8_t[], // The bytes to write to the memory address
-    "cocos": bool|undefined, // If the patch should be applied to cocos2d.dll
-    "disabled": bool|undefined, // If the patch should be ignored
+    "bytes": byte[], // The bytes to write to the memory address
+    "cocos": bool|undefined|null, // If the patch should be applied to cocos2d.dll
+    "disabled": bool|undefined|null, // If the patch should be ignored
   }
 ]
 ```
@@ -30,5 +32,5 @@ Simply run the [shell file](compile.sh) to build the DLL.
 
 ## Credits
 
-- [HJfod](https://github.com/HJfod): Fact checking the bindings
-- [Matcool](https://github.com/matcool): Providing the base minhook implementation example
+- [HJfod](https://github.com/HJfod): Fact checking the bindings and helping out a lot with the list view
+- [Matcool](https://github.com/matcool): Providing the base minhook/gd.h implementation example

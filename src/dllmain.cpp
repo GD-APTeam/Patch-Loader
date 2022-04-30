@@ -1,60 +1,56 @@
-#include "includes.h"
+#include <fstream>
 
-uintptr_t gdBase = reinterpret_cast<uintptr_t>(GetModuleHandleA(0));
+#include "includes.hpp"
+#include "hooks/AppDelegate.hpp"
+#include "hooks/MenuLayer.hpp"
 
-bool (__thiscall* AppDelegate_applicationDidFinishLaunching)(gd::AppDelegate* self);
-bool __fastcall AppDelegate_applicationDidFinishLaunching_H(gd::AppDelegate* self, void*) {
+DWORD WINAPI thread_func(void* hModule) {
+    // Caching patches
     std::ifstream file("patches.json", std::ifstream::binary);
 
-    if (file.good()) {        
-        uintptr_t cocosBase = reinterpret_cast<uintptr_t>(GetModuleHandleA("libcocos2d.dll"));
-        json patches;
+    if (file.good()) {
+        json patchesRaw;
 
-        file >> patches;
+        file >> patchesRaw;
 
-        for (json& patch : patches) {
-            if (
-                patch["address"].is_number_unsigned() && 
-                patch["bytes"].is_array() && 
-                (!patch["disabled"].is_boolean() || !patch["disabled"].get<bool>())
-            ) {
-                uintptr_t baseAddress;
+        for (json& patch : patchesRaw) {
+            if (Patch::isValid(patch)) {
+                Patch patchObj(patch);
 
-                if (patch["cocos"].is_boolean() && patch["cocos"].get<bool>()) {
-                    baseAddress = cocosBase;
-                } else {
-                    baseAddress = gdBase;
-                }
-
-                WriteProcessMemory(
-                    GetCurrentProcess(),
-                    reinterpret_cast<LPVOID>(baseAddress + patch["address"].get<unsigned int>()),
-                    patch["bytes"].get<std::vector<uint8_t>>().data(),
-                    patch["bytes"].size(),
-                    nullptr
-                );
+                gd::patches.push_back(patchObj);
             }
         }
     }
 
-    return AppDelegate_applicationDidFinishLaunching(self);
-}
-
-DWORD WINAPI thread_func(void* hModule) {
     MH_Initialize();
+
+    // AppDelegate
     MH_CreateHook(
-        reinterpret_cast<void*>(gdBase + 0x3CBB0),
-        AppDelegate_applicationDidFinishLaunching_H,
+        reinterpret_cast<void*>(gd::base + 0x3CBB0),
+        reinterpret_cast<void*>(&AppDelegate_applicationDidFinishLaunching_H),
         reinterpret_cast<void**>(&AppDelegate_applicationDidFinishLaunching)
     );
 
-    // enable all hooks you've created with minhook
+    // MenuLayer
+    MH_CreateHook(
+        reinterpret_cast<void*>(gd::base + 0x1907b0),
+        reinterpret_cast<void*>(&MenuLayer_init_H),
+        reinterpret_cast<void**>(&MenuLayer_init)
+    );
+
     MH_EnableHook(MH_ALL_HOOKS);
 
     return 0;
 }
 
 BOOL APIENTRY DllMain(HMODULE handle, DWORD reason, LPVOID reserved) {
+    #if CMAKE_BUILD_TYPE != Release
+        if (AllocConsole()) {
+            freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+            freopen_s(reinterpret_cast<FILE**>(stdin), "CONIN$", "r", stdin);
+        }
+    #endif
+    
     if (reason == DLL_PROCESS_ATTACH) {
         CreateThread(0, 0x100, thread_func, handle, 0, 0);
     }

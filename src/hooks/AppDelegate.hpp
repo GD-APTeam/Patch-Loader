@@ -1,8 +1,9 @@
-#ifndef __APPDELEGATE_H__
-#define __APPDELEGATE_H__
+#pragma once
+
+#include "../includes.hpp"
 
 namespace gd {
-    class AppDelegate {
+    struct AppDelegate {
         virtual bool applicationDidFinishLaunching() { return true; }
         virtual void applicationWillBecomeActive() { }
         virtual void applicationDidEnterBackground() { }
@@ -11,4 +12,6 @@ namespace gd {
         virtual void trySaveGame() { }
     };
 }
-#endif
+
+inline bool (__thiscall* AppDelegate_applicationDidFinishLaunching)(AppDelegate* self);
+bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, void*);
