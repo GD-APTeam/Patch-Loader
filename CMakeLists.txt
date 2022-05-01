@@ -14,6 +14,10 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
   add_definitions("--target=i386-pc-windows-msvc")
 endif()
 
+if (${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+    add_compile_definitions(SHOW_CONSOLE)
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE
   libraries/minhook/include
   libraries/gd.h/include
