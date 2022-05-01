@@ -38,7 +38,7 @@ DWORD WINAPI thread_func(void* hModule) {
 }
 
 BOOL APIENTRY DllMain(HMODULE handle, DWORD reason, LPVOID reserved) {
-    #if CMAKE_BUILD_TYPE == RelWithDebInfo
+    #if CMAKE_BUILD_TYPE != Release
         if (AllocConsole()) {
             freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
             freopen_s(reinterpret_cast<FILE**>(stdin), "CONIN$", "r", stdin);
