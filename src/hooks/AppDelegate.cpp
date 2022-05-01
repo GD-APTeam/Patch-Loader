@@ -2,7 +2,6 @@
 #include "../bindings/CCContentManager.hpp"
 
 bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, void*) {
-    std::cout << gd::started << std::endl;
     if (gd::started) {
         CCDirector* director = CCDirector::sharedDirector();
         CCScene* scene = CCScene::create();
@@ -14,7 +13,6 @@ bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, v
         CCLabelBMFont::purgeCachedData();
         CCShaderCache::purgeSharedShaderCache();
         CCShaderCache::sharedShaderCache()->reloadDefaultShaders();
-
     } else {
         gd::started = true;
     }
