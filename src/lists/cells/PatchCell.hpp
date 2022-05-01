@@ -12,10 +12,10 @@ struct PatchCell : public TableViewCell, public FLAlertLayerProtocol {
     void updateBGColor();
     void setIndex(unsigned int index);
     void loadFromMyData(PatchObject* object);
-    void FLAlert_Clicked(FLAlertLayer* alert, bool btn2);
 protected:
     unsigned int index;
 
     PatchCell(const char* name, CCSize size);
     void onClick(CCObject* sender);
+    void FLAlert_Clicked(FLAlertLayer* alert, bool btn2) override;
 };

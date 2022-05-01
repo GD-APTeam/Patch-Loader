@@ -57,12 +57,6 @@ void PatchCell::loadFromMyData(PatchObject* patch) {
     this->m_pLayer->setVisible(true);
 }
 
-void PatchCell::FLAlert_Clicked(FLAlertLayer* alert, bool btn2) {
-    if (btn2) {
-        CCApplication::sharedApplication()->applicationDidFinishLaunching();
-    }
-}
-
 PatchCell::PatchCell(const char* name, CCSize size) : TableViewCell(name, size.width, size.height) { }
 
 void PatchCell::setIndex(unsigned int index) {
@@ -86,5 +80,11 @@ void PatchCell::onClick(CCObject* object) {
             "To apply <cy>" + gd::patches[this->index]->name + "</c> You need to reload the game. "
             "Would you like to reload the game now?"
         )->show();
+    }
+}
+
+void PatchCell::FLAlert_Clicked(FLAlertLayer* alert, bool btn2) {
+    if (btn2) {
+        CCApplication::sharedApplication()->applicationDidFinishLaunching();
     }
 }
