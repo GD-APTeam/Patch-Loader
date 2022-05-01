@@ -1,4 +1,5 @@
 #include "PatchCell.hpp"
+#include "../../hooks/AppDelegate.hpp"
 
 PatchCell* PatchCell::create(const char* name, CCSize size) {
     PatchCell* cell = new PatchCell(name, size);
@@ -56,6 +57,12 @@ void PatchCell::loadFromMyData(PatchObject* patch) {
     this->m_pLayer->setVisible(true);
 }
 
+void PatchCell::FLAlert_Clicked(FLAlertLayer* alert, bool btn2) {
+    if (btn2) {
+        CCApplication::sharedApplication()->applicationDidFinishLaunching();
+    }
+}
+
 PatchCell::PatchCell(const char* name, CCSize size) : TableViewCell(name, size.width, size.height) { }
 
 void PatchCell::setIndex(unsigned int index) {
@@ -67,5 +74,17 @@ void PatchCell::onClick(CCObject* object) {
         gd::patches[this->index]->revert();
     } else {
         gd::patches[this->index]->apply();
+    }
+
+    if (gd::patches[this->index]->restart) {
+        FLAlertLayer::create(
+            this,
+            "Reload required",
+            "Later",
+            "Reload",
+            340.0f,
+            "To apply <cy>" + gd::patches[this->index]->name + "</c> You need to reload the game. "
+            "Would you like to reload the game now?"
+        )->show();
     }
 }

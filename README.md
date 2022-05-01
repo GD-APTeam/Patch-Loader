@@ -19,7 +19,7 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
     // A patch collection, this will group multiple patches together
     // Keep in mind that patches within cannot be toggled individually in-game
     // However they can be toggled in the configuration file
-    // address, bytes and cocos will be ignored if patches is set
+    // address, bytes, cocos and restart will be ignored if patches is set
     "patches": this|undefined|null
   }
 ]

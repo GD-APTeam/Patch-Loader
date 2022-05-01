@@ -26,4 +26,5 @@ struct PatchBase;
 namespace gd {
     inline uintptr_t cocosBase = reinterpret_cast<uintptr_t>(GetModuleHandleA("libcocos2d.dll"));
     inline std::vector<std::shared_ptr<PatchBase>> patches {};
+    inline bool started = false;
 }
