@@ -9,8 +9,8 @@ RT_ADD(
 
         CCContentManager();
         bool init();
-        cocos2d::CCDictionary* addDict(const char* dict, bool unk);
-        cocos2d::CCDictionary* addDictDS(const char* dict);
+        CCDictionary* addDict(const char* dict, bool unk);
+        CCDictionary* addDictDS(const char* dict);
         void clearCache();
     };
 );
