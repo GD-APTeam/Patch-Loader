@@ -28,7 +28,7 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
 ## Installation
 
 1. Install the latest release of [ProxyDllLoader](https://github.com/adafcaefc/ProxyDllLoader/releases/latest)
-2. Put the latest release of [Patch-Loader](https://github.com/SMJSGaming/Patch-Loader/releases/latest) in the `adaf-dll` directory
+2. Put the latest release of [Patch-Loader](https://github.com/GD-APTeam/Patch-Loader/releases/latest) in the `adaf-dll` directory
 3. Make a file called `patches.json` in the root directory of the game
 4. Configure it using the structure [above](#structure)
 
