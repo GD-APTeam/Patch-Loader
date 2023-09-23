@@ -1,6 +1,6 @@
 #include "PatchesListView.hpp"
 
-PatchesListView* PatchesListView::create(CCArray* data, CCSize size) {
+PatchesListView* PatchesListView::create(CCArray* data, const CCSize& size) {
     PatchesListView* view = new PatchesListView();
 
     if (view && view->init(data, BoomListType::kBoomListTypeDefault, size.width, size.height)) {
@@ -15,9 +15,9 @@ PatchesListView* PatchesListView::create(CCArray* data, CCSize size) {
 }
 
 void PatchesListView::setupList() {
-    unsigned int count = this->m_pEntries->count();
+    const size_t count = this->m_pEntries->count();
 
-    this->m_fItemSeparation = 90.0f;
+    this->m_fItemSeparation = 90;
 
     if (count) {
         this->m_pTableView->reloadData();
@@ -34,11 +34,6 @@ TableViewCell* PatchesListView::getListCell(const char* name) {
     return PatchCell::create(name, { this->m_fWidth , this->m_fItemSeparation });
 }
 
-void PatchesListView::loadCell(TableViewCell* cell, unsigned int index) {
-    PatchObject* patch = reinterpret_cast<PatchObject*>(this->m_pEntries->objectAtIndex(index));
-
-    reinterpret_cast<PatchCell*>(cell)->setIndex(index);
-    reinterpret_cast<PatchCell*>(cell)->loadFromMyData(patch);
-    reinterpret_cast<PatchCell*>(cell)->updateBGColor();
-
+void PatchesListView::loadCell(TableViewCell* cell, const size_t index) {
+    reinterpret_cast<PatchCell*>(cell)->init(index, reinterpret_cast<Patch*>(this->m_pEntries->objectAtIndex(index)));
 }

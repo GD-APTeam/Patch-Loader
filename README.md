@@ -10,20 +10,28 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
 [
   {
     "name": string, // The name which should be shown in the patch browser
-    "description": string|undefined|null, // The description which should be shown in the patch browser
-    "address": uint32_t, // The start memory address location of the patch
-    "bytes": byte[], // The bytes to write to the memory address
-    "cocos": bool|undefined|null, // If the patch should be applied to cocos2d.dll
-    "disabled": bool|undefined|null, // If the patch should be ignored
-    "restart": bool|undefined|null, // If the patch requires a restart
-    // A patch collection, this will group multiple patches together
-    // Keep in mind that patches within cannot be toggled individually in-game
-    // However they can be toggled in the configuration file
-    // address, bytes, cocos and restart will be ignored if patches is set
-    "patches": this|undefined|null
+    "description": string | null, // The description which should be shown in the patch browser
+    "patches": [ // A list of patches which should be applied once enabled
+      "label": string, // The label to identify the patch
+      "address": uint32_t, // The memory address to write to
+      "cocos": bool | null, // If the patch should be applied to libcocos2d.dll
+      // The following fields are mutually exclusive, one of them must be present
+      "bytes": byte[] | null, // The bytes to write to the memory address
+      "range": { // The info about a range patch which allows the user to select a number in a range
+        "start": int, // The inclusive start of the range
+        "end": int, // The inclusive end of the range
+        "size": 1...4, // The amount of bytes the range is writing to
+      } | null,
+      "checkbox": bool | null, // If the patch is a checkbox which only writes 0 or 1 to the memory address
+      "color" bool | null // If the patch is a color picker which writes a color to the memory address
+    ],
+    "restart": bool | null, // If the patch requires a restart
+    "enabled": bool | null // If the patch should be enabled by default
   }
 ]
 ```
+
+Any fields which are `null` will be ignored and can be omitted from the JSON.
 
 ## Installation
 

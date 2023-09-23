@@ -1,43 +1,22 @@
-#include <fstream>
-
 #include "includes.hpp"
-#include "hooks/AppDelegate.hpp"
-#include "hooks/MenuLayer.hpp"
 
-DWORD WINAPI thread_func(void* hModule) {
-    // Caching patches
-    std::ifstream file("patches.json", std::ifstream::binary);
-
-    if (file.good()) {
-        json patchesRaw;
-
-        file >> patchesRaw;
-
-        gd::patches = PatchBase::create(patchesRaw);
-    }
-
+DWORD WINAPI thread_func(const LPVOID hModule) {
     MH_Initialize();
 
-    // AppDelegate
-    MH_CreateHook(
-        reinterpret_cast<void*>(gd::base + 0x3CBB0),
-        reinterpret_cast<void*>(&AppDelegate_applicationDidFinishLaunching_H),
-        reinterpret_cast<void**>(&AppDelegate_applicationDidFinishLaunching)
-    );
-
-    // MenuLayer
-    MH_CreateHook(
-        reinterpret_cast<void*>(gd::base + 0x1907b0),
-        reinterpret_cast<void*>(&MenuLayer_init_H),
-        reinterpret_cast<void**>(&MenuLayer_init)
-    );
+    for (const hook_t& hook : gd::hooks) {
+        MH_CreateHook(
+            reinterpret_cast<LPVOID>((std::get<0>(hook) ? gd::cocosBase : gd::base) + std::get<1>(hook)), 
+            std::get<2>(hook), 
+            std::get<3>(hook)
+        );
+    }
 
     MH_EnableHook(MH_ALL_HOOKS);
 
     return 0;
 }
 
-BOOL APIENTRY DllMain(HMODULE handle, DWORD reason, LPVOID reserved) {
+BOOL APIENTRY DllMain(const HMODULE handle, const DWORD reason, const LPVOID reserved) {
     #ifdef SHOW_CONSOLE
         if (AllocConsole()) {
             freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);

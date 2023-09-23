@@ -1,21 +1,19 @@
 #pragma once
 
-#include "../views/PatchesListView.hpp"
 #include "../../includes.hpp"
-#include "../../objects/PatchObject.hpp"
-
-struct PatchesListView;
+#include "../../objects/Patch.hpp"
+#include "../../scenes/PatchInterface.hpp" 
+#include "../../objects/BetterTextArea.hpp" 
 
 struct PatchCell : public TableViewCell, public FLAlertLayerProtocol {
-    static PatchCell* create(const char* name, CCSize size);
+    static PatchCell* create(const char* name, const CCSize& size);
 
-    void updateBGColor();
-    void setIndex(unsigned int index);
-    void loadFromMyData(PatchObject* object);
+    void init(const size_t index, Patch* patch);
 protected:
-    unsigned int index;
+    Patch* m_patch;
 
-    PatchCell(const char* name, CCSize size);
-    void onClick(CCObject* sender);
-    void FLAlert_Clicked(FLAlertLayer* alert, bool btn2) override;
+    PatchCell(const char* name, const CCSize& size);
+    void onEnable(CCObject* sender);
+    void onInterface(CCObject* sender);
+    virtual void FLAlert_Clicked(FLAlertLayer* alert, const bool button2) override;
 };

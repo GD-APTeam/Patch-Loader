@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.24.0)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 
 project(Patch-Loader)
+add_compile_definitions(PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
@@ -14,7 +16,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
   add_definitions("--target=i386-pc-windows-msvc")
 endif()
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo" OR "${CMAKE_BUILD_TYPE}" STREQUAL "")
     add_compile_definitions(SHOW_CONSOLE)
 endif()
 

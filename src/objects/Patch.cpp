@@ -1,59 +1,66 @@
 #include "Patch.hpp"
 
-bool Patch::isValid(json patch) {
-    return PatchBase::isValid(patch) &&
-        patch["address"].is_number_unsigned() &&
-        patch["bytes"].is_array() &&
-        patch["bytes"].size() &&
-        patch["bytes"][0].is_number_unsigned() &&
-        patch["bytes"][0] < 0x100 &&
-        (patch["cocos"].is_null() || patch["cocos"].is_boolean());
+Patch Patch::get(const json& object) {
+    const json& patches = object["patches"];
+    Patch patch(true);
+
+    if (patches.is_array() && patches.size() && object["name"].is_string()) {
+        for (const json& subPatch : patches) {
+            const SubPatch subPatchObject = SubPatch::get(subPatch);
+
+            if (subPatchObject.m_isValid) {
+                patch.m_patches.push_back(subPatchObject);
+            } else {
+                return Patch(false);
+            }
+        }
+
+        patch.m_name = object["name"].get<std::string>();
+        patch.m_description = object.value("description", "No description was provided.");
+        patch.m_restart = object.value("restart", false);
+        patch.m_enabled = object.value("enabled", false);
+
+        return patch;
+    } else {
+        return Patch(false);
+    }
 }
 
-Patch::Patch(json patch) {
-    this->name = patch["name"].get<std::string>();
-    this->description = patch.value<std::string>("description", "No description was provided.");
-    this->bytes = patch["bytes"].get<std::vector<std::byte>>();
-    this->cocos = patch.value<bool>("cocos", false);
-    this->restart = patch.value<bool>("restart", false);
-    this->disabled = patch.value<bool>("disabled", false);
-    this->original = std::vector<std::byte>(this->bytes.size());
-    unsigned int address = patch["address"].get<uint32_t>();
-
-    if (this->cocos) {
-        this->address = reinterpret_cast<LPVOID>(gd::cocosBase + address);
-    } else {
-        this->address = reinterpret_cast<LPVOID>(gd::base + address);
-    }
-
-    ReadProcessMemory(
-        GetCurrentProcess(),
-        this->address,
-        this->original.data(),
-        this->original.size(),
-        nullptr
-    );
+Patch::Patch(const bool valid) : BasePatch(valid) {
+    this->retain();
 }
 
 void Patch::apply() {
-    if (!this->disabled) {
-        WriteProcessMemory(
-            GetCurrentProcess(),
-            this->address,
-            this->bytes.data(),
-            this->bytes.size(),
-            nullptr
-        );
+    if (!this->m_enabled) {
+        for (SubPatch patch : this->m_patches) {
+            patch.apply();
+        }
+
+        this->m_enabled = true;
     }
 }
 
 void Patch::revert() {
-    // A revert is never going to cause unexpected behavior so we don't need to check if it's disabled.
-    WriteProcessMemory(
-        GetCurrentProcess(),
-        this->address,
-        this->original.data(),
-        this->original.size(),
-        nullptr
-    );
+    if (this->m_enabled) {
+        for (SubPatch patch : this->m_patches) {
+            patch.revert();
+        }
+
+        this->m_enabled = false;
+    }
+}
+
+json Patch::toJson() {
+    json patch;
+
+    patch["name"] = this->m_name;
+    patch["description"] = this->m_description;
+    patch["restart"] = this->m_restart;
+    patch["enabled"] = this->m_enabled;
+
+    for (SubPatch subPatch : this->m_patches) {
+        patch["patches"].push_back(subPatch.toJson());
+    }
+
+    return patch;
 }

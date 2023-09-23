@@ -1,21 +1,21 @@
 #pragma once
 
+#include "SubPatch.hpp"
+#include "BasePatch.hpp"
 #include "../includes.hpp"
-#include "PatchBase.hpp"
 
-struct PatchVector;
-struct PatchBase;
+struct Patch : public CCObject, public BasePatch {
+    static Patch get(const json& object);
 
-struct Patch : public PatchBase {
-    static bool isValid(json patch);
-    
-    std::vector<std::byte> bytes;
+    std::string m_name;
+    std::string m_description;
+    std::vector<SubPatch> m_patches;
+    bool m_restart;
+    bool m_enabled;
 
-    Patch(json patch);
-    void apply() override;
-    void revert() override;
-protected:
-    LPVOID address;
-    std::vector<std::byte> original;
-    bool cocos;
+    virtual void apply() override;
+    virtual void revert() override;
+    virtual json toJson() override;
+private:
+    Patch(const bool valid);
 };

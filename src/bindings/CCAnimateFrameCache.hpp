@@ -3,7 +3,7 @@
 #include "../includes.hpp"
 
 namespace cocos2d {
-    struct CCAnimateFrameCache : CCObject {
+    struct CCAnimateFrameCache : public CCObject {
         CCDictionary* m_dict0;
         CCDictionary* m_dict1;
         CCDictionary* m_dict2;

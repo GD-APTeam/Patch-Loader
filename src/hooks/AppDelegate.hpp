@@ -1,7 +1,11 @@
 #pragma once
 
 #include "../includes.hpp"
+#include "../utils/Hook.hpp"
+#include "../objects/PatchStorage.hpp"
 #include "../bindings/AppDelegate.hpp"
+#include "../bindings/CCContentManager.hpp"
+#include "../bindings/CCAnimateFrameCache.hpp"
 
-inline bool (__thiscall* AppDelegate_applicationDidFinishLaunching)(AppDelegate* self);
-bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, void*);
+DEFINE_HOOK(bool, AppDelegate, applicationDidFinishLaunching);
+GD_HOOK(0x3CBB0, AppDelegate, applicationDidFinishLaunching);

@@ -1,8 +1,6 @@
 #include "AppDelegate.hpp"
-#include "../bindings/CCContentManager.hpp"
-#include "../bindings/CCAnimateFrameCache.hpp"
 
-bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, void*) {
+IMPLEMENT_HOOK(bool, AppDelegate, applicationDidFinishLaunching) {
     if (gd::started) {
         CCDirector* director = CCDirector::sharedDirector();
         CCAnimateFrameCache* animateFrameCache = CCAnimateFrameCache::sharedAnimateFrameCache();
@@ -21,8 +19,12 @@ bool __fastcall AppDelegate_applicationDidFinishLaunching_H(AppDelegate* self, v
         gd::started = true;
     }
 
-    for (std::shared_ptr<PatchBase> patch : gd::patches) {
-        patch->apply();
+    for (Patch& patch : PatchStorage::sharedState()->m_patches) {
+        if (patch.m_enabled) {
+            // Soft reset the patch.
+            patch.m_enabled = false;
+            patch.apply();
+        }
     }
 
     return AppDelegate_applicationDidFinishLaunching(self);
