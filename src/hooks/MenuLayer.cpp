@@ -3,16 +3,7 @@
 #include "../includes.hpp"
 #include "../scenes/PatchesBrowser.hpp"
 
-struct MenuLayerExtra : public MenuLayer {
-    void onPatchesClicked(CCObject*) {
-        PatchesBrowser* browser = PatchesBrowser::create();
-
-        CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
-        browser->showLayer(false);
-    }
-};
-
-class $modify(MenuLayer) {
+class $modify(MenuLayerExtra, MenuLayer) {
 
     bool init() {
         if (MenuLayer::init()) {
@@ -29,5 +20,12 @@ class $modify(MenuLayer) {
         } else {
             return false;
         }
+    }
+
+    void onPatchesClicked(CCObject*) {
+        PatchesBrowser* browser = PatchesBrowser::create();
+
+        CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
+        browser->showLayer(false);
     }
 };

@@ -14,6 +14,7 @@ using namespace cocos2d::extension;
 using JSON = nlohmann::json;
 
 namespace gd {
+    inline bool started = false;
     inline std::uintptr_t base = reinterpret_cast<std::uintptr_t>(GetModuleHandleA(nullptr));
     inline std::uintptr_t cocosBase = reinterpret_cast<std::uintptr_t>(GetModuleHandleA("libcocos2d.dll"));
 }

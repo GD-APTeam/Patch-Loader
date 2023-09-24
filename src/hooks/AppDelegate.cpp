@@ -4,12 +4,10 @@
 #include "../objects/Patch.hpp"
 #include "../objects/PatchStorage.hpp"
 
-static bool started = false;
-
 class $modify(AppDelegate) {
 
     bool applicationDidFinishLaunching() {
-        if (started) {
+        if (gd::started) {
             CCDirector* director = CCDirector::sharedDirector();
             CCAnimateFrameCache* animateFrameCache = CCAnimateFrameCache::sharedSpriteFrameCache();
 
@@ -24,7 +22,7 @@ class $modify(AppDelegate) {
             CCShaderCache::purgeSharedShaderCache();
             CCShaderCache::sharedShaderCache()->reloadDefaultShaders();
         } else {
-            started = true;
+            gd::started = true;
         }
 
         for (Patch& patch : PatchStorage::sharedState()->m_patches) {
