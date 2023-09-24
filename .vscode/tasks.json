@@ -1,16 +1,10 @@
 {
   "version": "2.0.0",
-  "options": {
-    "env": {
-      "GEOMETRY_DASH": "C:/Program Files (x86)/Steam/steamapps/common/Geometry Dash",
-      "PROJECT": "Patch-Loader"
-    }
-  },
   "tasks": [
     {
       "label": "Patch Loader: Debug",
       "type": "shell",
-      "command": "cmake --build build --config RelWithDebInfo --target ALL_BUILD; Copy-Item -Path ./build/RelWithDebInfo/$env:PROJECT.dll -Destination $env:GEOMETRY_DASH/extensions/$env:PROJECT-Dev.dll -Force;",
+      "command": "cmake --build build --config RelWithDebInfo --target ALL_BUILD",
       "group": {
         "kind": "build",
         "isDefault": true

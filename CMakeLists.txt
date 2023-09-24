@@ -1,32 +1,24 @@
-cmake_minimum_required(VERSION 3.24.0)
+cmake_minimum_required(VERSION 3.21)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
 
-project(Patch-Loader)
+project(Patch-Loader VERSION 3.0.0)
 add_compile_definitions(PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 
-file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
-set(CMAKE_SIZEOF_VOID_P 4)
-
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -target i386-pc-windows-msvc")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -target i386-pc-windows-msvc")
-  add_definitions("--target=i386-pc-windows-msvc")
+if (NOT DEFINED ENV{GEODE_SDK})
+    message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
+else()
+    message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo" OR "${CMAKE_BUILD_TYPE}" STREQUAL "")
-    add_compile_definitions(SHOW_CONSOLE)
-endif()
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-  libraries/minhook/include
-  libraries/gd.h/include
-  libraries/gd.h/
-)
+setup_geode_mod(${PROJECT_NAME})
 
-add_subdirectory(libraries/minhook)
-add_subdirectory(libraries/cocos-headers)
-
-target_link_libraries(${PROJECT_NAME} minhook cocos2d)
+# if ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo" OR "${CMAKE_BUILD_TYPE}" STREQUAL "")
+#     add_compile_definitions(SHOW_CONSOLE)
+# endif()

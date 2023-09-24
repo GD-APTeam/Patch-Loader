@@ -4,7 +4,7 @@
 #include "../includes.hpp"
 
 struct PatchRange : public BasePatch {
-    static PatchRange get(const json& object);
+    static PatchRange get(const JSON& object);
 
     int m_start;
     int m_end;
@@ -14,7 +14,7 @@ struct PatchRange : public BasePatch {
     void apply(const LPVOID address, const int value);
     virtual void apply() override;
     virtual void revert() override;
-    virtual json toJson() override;
+    virtual JSON toJson() override;
 private:
     PatchRange(const bool valid);
 };

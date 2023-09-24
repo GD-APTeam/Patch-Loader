@@ -3,7 +3,7 @@
 PatchesListView* PatchesListView::create(CCArray* data, const CCSize& size) {
     PatchesListView* view = new PatchesListView();
 
-    if (view && view->init(data, BoomListType::kBoomListTypeDefault, size.width, size.height)) {
+    if (view && view->init(data, BoomListType::Default, size.width, size.height)) {
         view->autorelease();
         
         return view;
@@ -15,25 +15,25 @@ PatchesListView* PatchesListView::create(CCArray* data, const CCSize& size) {
 }
 
 void PatchesListView::setupList() {
-    const size_t count = this->m_pEntries->count();
+    const size_t count = this->m_entries->count();
 
-    this->m_fItemSeparation = 90;
+    this->m_itemSeparation = 90;
 
     if (count) {
-        this->m_pTableView->reloadData();
+        this->m_tableView->reloadData();
 
         if (count == 1) {
-            this->m_pTableView->moveToTopWithOffset(this->m_fItemSeparation);
+            this->m_tableView->moveToTopWithOffset(this->m_itemSeparation);
         } else {
-            this->m_pTableView->moveToTop();
+            this->m_tableView->moveToTop();
         }
     }
 }
 
 TableViewCell* PatchesListView::getListCell(const char* name) {
-    return PatchCell::create(name, { this->m_fWidth , this->m_fItemSeparation });
+    return PatchCell::create(name, { this->m_width , this->m_itemSeparation });
 }
 
-void PatchesListView::loadCell(TableViewCell* cell, const size_t index) {
-    reinterpret_cast<PatchCell*>(cell)->init(index, reinterpret_cast<Patch*>(this->m_pEntries->objectAtIndex(index)));
+void PatchesListView::loadCell(TableViewCell* cell, const int index) {
+    reinterpret_cast<PatchCell*>(cell)->init(index, reinterpret_cast<Patch*>(this->m_entries->objectAtIndex(index)));
 }

@@ -1,0 +1,8 @@
+{
+	"geode": "1.3.4",
+	"version": "v3.0.0",
+	"id": "smjs.patch-loader",
+	"name": "Patch-Loader",
+	"developer": "SMJS",
+	"description": "A dynamic Geometry Dash patch loader which makes use of a JSON patch configuration file."
+}

@@ -1,6 +1,6 @@
 #include "SubPatch.hpp"
 
-SubPatch SubPatch::get(const json& object) {
+SubPatch SubPatch::get(const JSON& object) {
     if (object.is_object() && object["label"].is_string() && object["address"].is_number_unsigned()) {
         const PatchRange range = PatchRange::get(object["range"]);
         SubPatch subPatch(true);
@@ -37,9 +37,9 @@ SubPatch SubPatch::get(const json& object) {
 
 }
 
-bool SubPatch::isValidBytes(const json& bytes) {
+bool SubPatch::isValidBytes(const JSON& bytes) {
     if (bytes.is_array() && bytes.size()) {
-        for (const json& byte : bytes) {
+        for (const JSON& byte : bytes) {
             // If any byte is not a number or is greater than 0xFF, it will break memory when applied.
             if (!byte.is_number_unsigned() || byte > 0xFF) {
                 return false;
@@ -62,8 +62,8 @@ void SubPatch::revert() {
     WriteProcessMemory(GetCurrentProcess(), this->m_realAddress, this->m_original.data(), this->m_original.size(), nullptr);
 }
 
-json SubPatch::toJson() {
-    json patch;
+JSON SubPatch::toJson() {
+    JSON patch;
 
     patch["label"] = this->m_label;
     patch["bytes"] = this->m_bytes;

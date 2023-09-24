@@ -5,7 +5,7 @@
 #include "../includes.hpp"
 
 struct Patch : public CCObject, public BasePatch {
-    static Patch get(const json& object);
+    static Patch get(const JSON& object);
 
     std::string m_name;
     std::string m_description;
@@ -15,7 +15,7 @@ struct Patch : public CCObject, public BasePatch {
 
     virtual void apply() override;
     virtual void revert() override;
-    virtual json toJson() override;
+    virtual JSON toJson() override;
 private:
     Patch(const bool valid);
 };

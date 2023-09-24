@@ -12,21 +12,21 @@ bool Interface::init() {
             this,
             menu_selector(Interface::onClose)
         );
-        this->m_pLayer = CCLayer::create();
-        this->m_pButtonMenu = CCMenu::create();
+        this->m_mainLayer = CCLayer::create();
+        this->m_buttonMenu = CCMenu::create();
 
         director->getTouchDispatcher()->incrementForcePrio(2);
         background->setContentSize(this->m_size);
         background->setPosition({ winSize.width / 2, winSize.height / 2 });
         close->setSizeMult(1.5f);
-        this->m_pButtonMenu->setPosition({ (winSize.width - this->m_size.width) / 2 + 10, (winSize.height + this->m_size.height) / 2 - 10 });
-        this->m_pButtonMenu->setZOrder(10);
+        this->m_buttonMenu->setPosition({ (winSize.width - this->m_size.width) / 2 + 10, (winSize.height + this->m_size.height) / 2 - 10 });
+        this->m_buttonMenu->setZOrder(10);
 
-        this->m_pLayer->addChild(this->m_pButtonMenu);
-        this->m_pLayer->addChild(background);
-        this->m_pButtonMenu->addChild(close);
-        this->addChild(this->m_pLayer);
-        this->render(this->m_pLayer);
+        this->m_mainLayer->addChild(this->m_buttonMenu);
+        this->m_mainLayer->addChild(background);
+        this->m_buttonMenu->addChild(close);
+        this->addChild(this->m_mainLayer);
+        this->render(this->m_mainLayer);
         this->setKeypadEnabled(true);
         this->setTouchEnabled(true);
 
@@ -38,8 +38,7 @@ bool Interface::init() {
 
 void Interface::setTitle(const std::string& title, const std::string& font) {
     const CCSize& winSize = CCDirector::sharedDirector()->getWinSize();
-    const int tag = TagGenerator::hashTag(Tag::INTERFACE_TITLE);
-    CCNode* node = this->m_pLayer->getChildByTag(tag);
+    CCNode* node = this->m_mainLayer->getChildByID("interface-title");
     CCLabelBMFont* titleNode = dynamic_cast<CCLabelBMFont*>(node);
 
     if (node) {
@@ -56,8 +55,8 @@ void Interface::setTitle(const std::string& title, const std::string& font) {
 
     titleNode->setPosition({ winSize.width / 2, winSize.height / 2 + this->m_size.height / 2 - 15 });
     titleNode->setScale(0.9f);
-    titleNode->setTag(tag);
-    this->m_pLayer->addChild(titleNode);
+    titleNode->setID("interface-title");
+    this->m_mainLayer->addChild(titleNode);
 }
 
 void Interface::onClose(CCObject* sender) {

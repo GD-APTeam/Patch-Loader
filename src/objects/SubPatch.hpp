@@ -12,8 +12,8 @@ enum PatchType {
 };
 
 struct SubPatch : public BasePatch {
-    static SubPatch get(const json& object);
-    static bool isValidBytes(const json& bytes);
+    static SubPatch get(const JSON& object);
+    static bool isValidBytes(const JSON& bytes);
 
     PatchType m_type;
     std::string m_label;
@@ -25,7 +25,7 @@ struct SubPatch : public BasePatch {
     SubPatch(const bool valid);
     virtual void apply() override;
     virtual void revert() override;
-    virtual json toJson() override;
+    virtual JSON toJson() override;
 private:
     LPVOID m_realAddress;
     std::vector<std::byte> m_original;

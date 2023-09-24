@@ -1,11 +1,11 @@
 #include "Patch.hpp"
 
-Patch Patch::get(const json& object) {
-    const json& patches = object["patches"];
+Patch Patch::get(const JSON& object) {
+    const JSON& patches = object["patches"];
     Patch patch(true);
 
     if (patches.is_array() && patches.size() && object["name"].is_string()) {
-        for (const json& subPatch : patches) {
+        for (const JSON& subPatch : patches) {
             const SubPatch subPatchObject = SubPatch::get(subPatch);
 
             if (subPatchObject.m_isValid) {
@@ -50,8 +50,8 @@ void Patch::revert() {
     }
 }
 
-json Patch::toJson() {
-    json patch;
+JSON Patch::toJson() {
+    JSON patch;
 
     patch["name"] = this->m_name;
     patch["description"] = this->m_description;

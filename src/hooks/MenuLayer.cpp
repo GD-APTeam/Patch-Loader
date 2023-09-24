@@ -1,28 +1,33 @@
-#include "MenuLayer.hpp"
+#include <Geode/modify/MenuLayer.hpp>
 
-IMPLEMENT_HOOK(bool, MenuLayer, init) {
-    const bool initResult = MenuLayer_init(self);
-    
-    if (initResult) {
-        CCMenu* menu = CCMenu::create();
-        CCDirector* director = CCDirector::sharedDirector();
-        CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_starBtn_001.png");
+#include "../includes.hpp"
+#include "../scenes/PatchesBrowser.hpp"
 
-        sprite->setScale(0.7f);
-        menu->addChild(CCMenuItemSpriteExtra::create(sprite, self, menu_selector(MenuLayer_CB::onPatchesClicked)));
-        menu->setPosition({ director->getScreenRight() - 18, director->getScreenTop() - 18 });
-        self->addChild(menu);
+struct MenuLayerExtra : public MenuLayer {
+    void onPatchesClicked(CCObject*) {
+        PatchesBrowser* browser = PatchesBrowser::create();
 
-        return true;
-    } else {
-        return initResult;
+        CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
+        browser->showLayer(false);
     }
+};
 
-}
+class $modify(MenuLayer) {
 
-void MenuLayer_CB::onPatchesClicked(CCObject* sender) {
-    PatchesBrowser* browser = PatchesBrowser::create();
+    bool init() {
+        if (MenuLayer::init()) {
+            CCMenu* menu = CCMenu::create();
+            CCDirector* director = CCDirector::sharedDirector();
+            CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_starBtn_001.png");
 
-    CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
-    browser->showLayer(false);
-}
+            sprite->setScale(0.7f);
+            menu->addChild(CCMenuItemSpriteExtra::create(sprite, this, menu_selector(MenuLayerExtra::onPatchesClicked)));
+            menu->setPosition({ director->getScreenRight() - 18, director->getScreenTop() - 18 });
+            this->addChild(menu);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+};

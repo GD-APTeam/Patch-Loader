@@ -13,12 +13,12 @@ PatchStorage::PatchStorage() {
     std::ifstream file(PatchStorage::m_fileName, std::ifstream::binary);
 
     if (file.good()) {
-        json patches;
+        JSON patches;
 
         file >> patches;
 
         if (patches.is_array()) {
-            for (const json& patch : patches) {
+            for (const JSON& patch : patches) {
                 Patch patchObject = Patch::get(patch);
 
                 if (patchObject.m_isValid) {
@@ -55,7 +55,7 @@ void PatchStorage::replacePatch(const size_t index, Patch patch) {
 
 void PatchStorage::save() {
     std::ofstream file(PatchStorage::m_fileName);
-    json storage = json::array();
+    JSON storage = JSON::array();
 
     for (Patch& patch : this->m_patches) {
         storage.push_back(patch.toJson());

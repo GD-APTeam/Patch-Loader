@@ -25,5 +25,5 @@ void PatchesBrowser::customSetup() {
         patches->addObject(&patch);
     }
 
-    this->m_pListLayer->addChild(PatchesListView::create(patches, { 356, 220 }));
+    this->m_listLayer->addChild(PatchesListView::create(patches, { 356, 220 }));
 }

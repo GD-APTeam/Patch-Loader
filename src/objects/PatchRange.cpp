@@ -1,10 +1,10 @@
 #include "PatchRange.hpp"
 
-PatchRange PatchRange::get(const json& object) {
+PatchRange PatchRange::get(const JSON& object) {
     if (object.is_object()) {
-        const json& start = object["start"];
-        const json& end = object["end"];
-        const json& size = object["size"];
+        const JSON& start = object["start"];
+        const JSON& end = object["end"];
+        const JSON& size = object["size"];
 
         if (start.is_number() && end.is_number() && size.is_number_unsigned()) {
             const size_t sizeValue = size.get<size_t>();
@@ -53,8 +53,8 @@ void PatchRange::apply() { }
 
 void PatchRange::revert() { }
 
-json PatchRange::toJson() {
-    json patch;
+JSON PatchRange::toJson() {
+    JSON patch;
 
     patch["start"] = this->m_start;
     patch["end"] = this->m_end;
