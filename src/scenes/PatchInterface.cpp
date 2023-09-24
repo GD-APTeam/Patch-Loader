@@ -1,9 +1,9 @@
 #include "PatchInterface.hpp"
 
 PatchInterface* PatchInterface::create(Patch* patch) {
-    PatchInterface* interface = new PatchInterface(patch);
+    PatchInterface* interface = new PatchInterface();
 
-    if (interface && interface->init()) {
+    if (interface && interface->init(400, 280, patch)) {
         interface->autorelease();
 
         return interface;
@@ -14,10 +14,9 @@ PatchInterface* PatchInterface::create(Patch* patch) {
     }
 }
 
-PatchInterface::PatchInterface(Patch* patch): Interface({ 400, 280 }) {
+bool PatchInterface::setup(Patch* patch) {
     this->m_patch = patch;
-}
+    this->setTitle(patch->m_name);
 
-void PatchInterface::render(CCLayer* layer) {
-    Interface::setTitle(this->m_patch->m_name);    
+    return true;
 }

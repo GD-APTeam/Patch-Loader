@@ -64,23 +64,21 @@ void PatchCell::onEnable(CCObject* sender) {
     }
 
     if (this->m_patch->m_restart) {
-        FLAlertLayer::create(
-            this,
+        geode::createQuickPopup(
             "Reload required",
             "To apply <cy>" + this->m_patch->m_name + "</c> You need to reload the game. Would you like to reload the game now?",
             "Later",
             "Reload",
-            340
-        )->show();
+            340,
+            [](FLAlertLayer*, const bool button2) {
+                if (button2) {
+                    CCApplication::sharedApplication()->applicationDidFinishLaunching();
+                }
+            }
+        );
     }
 }
 
 void PatchCell::onInterface(CCObject* sender) {
     PatchInterface::create(this->m_patch)->show();
-}
-
-void PatchCell::FLAlert_Clicked(FLAlertLayer* alert, const bool button2) {
-    if (button2) {
-        CCApplication::sharedApplication()->applicationDidFinishLaunching();
-    }
 }

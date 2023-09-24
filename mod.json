@@ -4,5 +4,18 @@
 	"id": "smjs.patch-loader",
 	"name": "Patch-Loader",
 	"developer": "SMJS",
-	"description": "A dynamic Geometry Dash patch loader which makes use of a JSON patch configuration file."
+	"description": "A dynamic Geometry Dash patch loader which makes use of a JSON patch configuration file.",
+  "repository": "https://github.com/GD-APTeam/Patch-Loader",
+  "issues": {
+    "info": "Please report any issues you find on the GitHub repository. Make sure these bugs aren't caused by patches rather than the loader itself.",
+    "url": "https://github.com/GD-APTeam/Patch-Loader/issues"
+  },
+  "early-load": true,
+  "dependencies": [
+    {
+      "id": "geode.custom-keybinds",
+      "version": "v1.1.0",
+      "required": true
+    }
+  ]
 }

@@ -23,9 +23,6 @@ class $modify(MenuLayerExtra, MenuLayer) {
     }
 
     void onPatchesClicked(CCObject*) {
-        PatchesBrowser* browser = PatchesBrowser::create();
-
-        CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
-        browser->showLayer(false);
+        PatchesBrowser::popup();
     }
 };

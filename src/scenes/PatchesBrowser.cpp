@@ -1,16 +1,15 @@
 #include "PatchesBrowser.hpp"
 
-PatchesBrowser* PatchesBrowser::create() {
+void PatchesBrowser::popup() {
     PatchesBrowser* browser = new PatchesBrowser();
 
     if (browser && browser->init()) {
         browser->autorelease();
+        browser->showLayer(false);
 
-        return browser;
+        CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
     } else {
         CC_SAFE_DELETE(browser);
-
-        return nullptr;
     }
 }
 

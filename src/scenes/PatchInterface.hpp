@@ -1,15 +1,12 @@
 #pragma once
 
-#include "Interface.hpp"
 #include "../includes.hpp"
 #include "../objects/Patch.hpp"
 
-struct PatchInterface : public Interface {
+struct PatchInterface : public geode::Popup<Patch*> {
     static PatchInterface* create(Patch* patch);
 protected:
-    virtual void render(CCLayer* layer) override;
+    virtual bool setup(Patch* patch) override;
 private:
     Patch* m_patch;
-
-    PatchInterface(Patch* patch);
 };
