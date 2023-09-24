@@ -23,6 +23,6 @@ class $modify(MenuLayerExtra, MenuLayer) {
     }
 
     void onPatchesClicked(CCObject*) {
-        PatchesBrowser::popup();
+        PatchesBrowser::scene();
     }
 };

@@ -23,7 +23,7 @@ $execute {
 
     new geode::EventListener([=](InvokeBindEvent* event) {
         if (event->isDown()) {
-            PatchesBrowser::popup();
+            PatchesBrowser::scene();
         }
 
         return geode::ListenerResult::Propagate;

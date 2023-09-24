@@ -79,6 +79,6 @@ void PatchCell::onEnable(CCObject* sender) {
     }
 }
 
-void PatchCell::onInterface(CCObject* sender) {
+void PatchCell::onInterface(CCObject*) {
     PatchInterface::create(this->m_patch)->show();
 }

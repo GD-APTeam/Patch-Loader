@@ -5,8 +5,10 @@
 #include "../lists/views/PatchesListView.hpp"
 
 struct PatchesBrowser : public GJDropDownLayer {
-    static void popup();
+    static bool isOpen;
+
+    static void scene();
 protected:
-    virtual bool init() override;
     virtual void customSetup() override;
+    virtual void exitLayer(CCObject* sender) override;
 };

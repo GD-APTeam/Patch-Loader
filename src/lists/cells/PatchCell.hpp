@@ -14,5 +14,5 @@ protected:
 
     PatchCell(const char* name, const CCSize& size);
     void onEnable(CCObject* sender);
-    void onInterface(CCObject* sender);
+    void onInterface(CCObject*);
 };
