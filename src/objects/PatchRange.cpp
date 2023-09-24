@@ -46,7 +46,7 @@ void PatchRange::apply(const LPVOID address, const int value) {
         bytes[i] = static_cast<std::byte>(correctedValue >> 8 * i & 0xFF);
     }
 
-    WriteProcessMemory(GetCurrentProcess(), address, bytes.data(), this->m_size, nullptr);
+    WriteProcessMemory(gd::process, address, bytes.data(), this->m_size, nullptr);
 }
 
 void PatchRange::apply() { }

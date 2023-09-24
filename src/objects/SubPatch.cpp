@@ -28,7 +28,7 @@ SubPatch SubPatch::get(const JSON& object) {
         subPatch.m_address = object["address"].get<std::uintptr_t>();
         subPatch.m_realAddress = reinterpret_cast<LPVOID>((subPatch.m_cocos ? gd::cocosBase : gd::base) + subPatch.m_address);
 
-        ReadProcessMemory(GetCurrentProcess(), subPatch.m_realAddress, subPatch.m_original.data(), subPatch.m_original.size(), nullptr);
+        ReadProcessMemory(gd::process, subPatch.m_realAddress, subPatch.m_original.data(), subPatch.m_original.size(), nullptr);
 
         return subPatch;
     } else {
@@ -55,11 +55,11 @@ bool SubPatch::isValidBytes(const JSON& bytes) {
 SubPatch::SubPatch(const bool valid) : BasePatch(valid) { }
 
 void SubPatch::apply() {
-    WriteProcessMemory(GetCurrentProcess(), this->m_realAddress, this->m_bytes.data(), this->m_bytes.size(), nullptr);
+    WriteProcessMemory(gd::process, this->m_realAddress, this->m_bytes.data(), this->m_bytes.size(), nullptr);
 }
 
 void SubPatch::revert() {
-    WriteProcessMemory(GetCurrentProcess(), this->m_realAddress, this->m_original.data(), this->m_original.size(), nullptr);
+    WriteProcessMemory(gd::process, this->m_realAddress, this->m_original.data(), this->m_original.size(), nullptr);
 }
 
 JSON SubPatch::toJson() {
