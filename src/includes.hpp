@@ -5,8 +5,7 @@
 #undef snprintf
 #undef interface
 
-#include "utils/json.hpp"
-
+#include <nlohmann/json.hpp>
 #include <Geode/Geode.hpp>
 
 using namespace cocos2d;
