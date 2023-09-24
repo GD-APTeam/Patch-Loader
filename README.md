@@ -47,4 +47,3 @@ Simply run the [shell file](compile.sh) to build the DLL.
 ## Credits
 
 - [HJfod](https://github.com/HJfod): Fact checking the bindings and helping out a lot with the list view
-- [Matcool](https://github.com/matcool): Providing the base minhook/gd.h implementation example
