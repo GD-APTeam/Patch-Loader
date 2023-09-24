@@ -29,11 +29,6 @@ void PatchCell::init(const size_t index, Patch* patch) {
         this->m_height - 48
     }, this, this->m_mainLayer, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);
 
-    // GameToolbox::createToggleButton(menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, this, this->m_mainLayer, 1, 1, 160, "", false, 0, nullptr, "", {
-    //     this->m_width - 30,
-    //     this->m_height - 48
-    // }, { 0, 0 });
-
     name->setScale(0.7f);
     name->setAnchorPoint({ 0, 1 });
     name->setPosition({ 15, this->m_height - 10 });
@@ -72,20 +67,11 @@ void PatchCell::onEnable(CCObject* sender) {
         FLAlertLayer::create(
             this,
             "Reload required",
-            "To apply <cy>" + this->m_patch->m_name + "</c> You need to reload the game. " "Would you like to reload the game now?",
+            "To apply <cy>" + this->m_patch->m_name + "</c> You need to reload the game. Would you like to reload the game now?",
             "Later",
             "Reload",
             340
         )->show();
-        // FLAlertLayer::create(
-        //     this,
-        //     "Reload required",
-        //     "Later",
-        //     "Reload",
-        //     340,
-        //     "To apply <cy>" + this->m_patch->m_name + "</c> You need to reload the game. "
-        //     "Would you like to reload the game now?"
-        // )->show();
     }
 }
 
