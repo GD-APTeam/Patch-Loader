@@ -54,14 +54,15 @@ struct BetterTextArea : public CCNode {
         this->m_artificialWidth = true;
 
         this->setContentSize({ width, this->getContentSize().height });
+        this->m_container->setContentSize({ width, this->m_container->getContentSize().height });
     }
 
     float getWidth() {
-        return this->getContentSize().width;
+        return this->m_container->getContentSize().width;
     }
 
     float getHeight() {
-        return this->getContentSize().height;
+        return this->m_container->getContentSize().height;
     }
 
     void setScale(const float scale) {
@@ -104,6 +105,7 @@ private:
         }
     }
 
+    CCMenu* m_container;
     std::string m_font;
     std::string m_text;
     std::vector<CCLabel<TTF>*> m_lines;
@@ -120,9 +122,13 @@ private:
         this->m_scale = scale;
         this->m_linePadding = 0;
         this->m_artificialWidth = artificialWidth;
+        this->m_container = CCMenu::create();
 
-        this->setAnchorPoint({ 0, 1.0f });
-        this->setContentSize({ width, 0 });
+        this->m_container->setPosition({ 0, 0 });
+        this->m_container->setAnchorPoint({ 0, 1 });
+        this->m_container->setContentSize({ width, 0 });
+
+        this->addChild(this->m_container);
         this->updateContents();
     }
 
@@ -154,6 +160,7 @@ private:
 
         for (const char c : this->m_text) {
             if (this->m_maxLines && this->m_lines.size() > this->m_maxLines) {
+                std::cout << this->m_lines.size() << std::endl;
                 CCLabel<TTF>* last = this->m_lines.at(this->m_maxLines - 1);
                 const std::string text = last->getString();
 
@@ -165,25 +172,33 @@ private:
                 line = this->createLabel("", top -= this->calculateOffset(line));
 
                 this->m_lines.push_back(line);
+            } else if (this->m_artificialWidth && line->getContentSize().width >= this->getWidth()) {
+                line = this->moveOverflow(line, c, top -= this->calculateOffset(line));
             } else {
                 const std::string text = line->getString();
 
-                if (this->m_artificialWidth && line->getContentSize().width >= this->getWidth()) {
-                    const char back = text.back();
-                    const bool isSpace = c == ' ';
-                    const bool lastIsSpace = back == ' ';
-
-                    if (!isSpace && !lastIsSpace) {
-                        line->setString((text.substr(0, text.size() - 1) + '-').c_str());
-                    }
-
-                    line = this->createLabel(std::string(!lastIsSpace, back).append(std::string(!isSpace, c)), top -= this->calculateOffset(line));
-                    this->m_lines.push_back(line);
-                } else {
-                    line->setString((text + c).c_str());
-                }
+                line->setString((text + c).c_str());
             }
         }
+    }
+
+    CCLabel<TTF>* moveOverflow(CCLabel<TTF>* line, const char c, const float top) {
+        const std::string text = line->getString();
+        const char back = text.back();
+        const bool lastIsSpace = back == ' ';
+        CCLabel<TTF>* newLine = this->createLabel(std::string(!lastIsSpace, back).append(std::string(c != ' ', c)), top);
+
+        if (!lastIsSpace) {
+            if (text[text.size() - 2] == ' ') {
+                line->setString(text.substr(0, text.size() - 1).c_str());
+            } else {
+                line->setString((text.substr(0, text.size() - 1) + '-').c_str());
+            }
+        }
+
+        this->m_lines.push_back(newLine);
+
+        return newLine;
     }
 
     void updateContents() {
@@ -199,13 +214,14 @@ private:
         float height = this->m_lineHeight * lineCount + this->m_linePadding * (lineCount - 1);
 
         this->setContentSize({ this->m_artificialWidth ? this->getWidth() : 500, height });
-        this->removeAllChildren();
+        this->m_container->setContentSize(this->getContentSize());
+        this->m_container->removeAllChildren();
 
         height -= this->m_lineHeight;
 
         for (CCLabel<TTF>* line : this->m_lines) {
             line->setPosition({ 0, height + line->getPositionY() });
-            this->addChild(line);
+            this->m_container->addChild(line);
         }
     }
 };
