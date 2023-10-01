@@ -5,25 +5,30 @@ Patch Patch::get(const JSON& object) {
     Patch patch(true);
 
     if (patches.is_array() && patches.size() && object["name"].is_string()) {
-        for (const JSON& subPatch : patches) {
-            const SubPatch subPatchObject = SubPatch::get(subPatch);
+        const std::string name = object["name"].get<std::string>();
+        const std::string description = object.value("description", "No description was provided.");
 
-            if (subPatchObject.m_isValid) {
-                patch.m_patches.push_back(subPatchObject);
-            } else {
-                return Patch(false);
+        if (name.size() <= 30 && description.size() <= 85) {
+            for (const JSON& subPatch : patches) {
+                const SubPatch subPatchObject = SubPatch::get(subPatch);
+
+                if (subPatchObject.m_isValid) {
+                    patch.m_patches.push_back(subPatchObject);
+                } else {
+                    return Patch(false);
+                }
             }
+
+            patch.m_name = name;
+            patch.m_description = description;
+            patch.m_restart = object.value("restart", false);
+            patch.m_enabled = object.value("enabled", false);
+
+            return patch;
         }
-
-        patch.m_name = object["name"].get<std::string>();
-        patch.m_description = object.value("description", "No description was provided.");
-        patch.m_restart = object.value("restart", false);
-        patch.m_enabled = object.value("enabled", false);
-
-        return patch;
-    } else {
-        return Patch(false);
     }
+
+    return Patch(false);
 }
 
 Patch::Patch(const bool valid) : BasePatch(valid) {
