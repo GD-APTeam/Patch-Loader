@@ -5,7 +5,7 @@
 #include "../lists/views/PatchesListView.hpp"
 
 struct PatchesBrowser : public GJDropDownLayer {
-    static bool isOpen;
+    static PatchesBrowser* instance;
 
     static void scene();
 protected:

@@ -17,7 +17,7 @@ $execute {
         "open-menu"_spr,
         "Open menu",
         "Opens the Patch Loader menu with all installed patches to quickly toggle them.",
-        { Keybind::create(KEY_M) },
+        { Keybind::create(KEY_P) },
         "Patch Loader"
     });
 

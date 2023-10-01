@@ -1,14 +1,16 @@
 #include "PatchesBrowser.hpp"
 
-bool PatchesBrowser::isOpen = false;
+PatchesBrowser* PatchesBrowser::instance = nullptr;
 
 void PatchesBrowser::scene() {
-    if (!PatchesBrowser::isOpen) {
+    if (PatchesBrowser::instance) {
+        PatchesBrowser::instance->exitLayer(nullptr);
+    } else {
         PatchesBrowser* browser = new PatchesBrowser();
 
         if (browser && browser->init("Installed patches", 220)) {
             PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
-            PatchesBrowser::isOpen = true;
+            PatchesBrowser::instance = browser;
 
             browser->autorelease();
             browser->showLayer(false);
@@ -36,7 +38,7 @@ void PatchesBrowser::customSetup() {
 }
 
 void PatchesBrowser::exitLayer(CCObject* sender) {
-    PatchesBrowser::isOpen = false;
+    PatchesBrowser::instance = nullptr;
 
     GJDropDownLayer::exitLayer(sender);
 }
