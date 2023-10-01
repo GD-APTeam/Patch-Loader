@@ -7,7 +7,7 @@ PatchCell* PatchCell::create(const char* name, const CCSize& size) {
 PatchCell::PatchCell(const char* name, const CCSize& size) : TableViewCell(name, size.width, size.height) { }
 
 void PatchCell::init(const size_t index, Patch* patch) {
-    CCMenu* interfaceMenu = CCMenu::create();
+    CCMenu* topRow = CCMenu::create();
     CCMenuItemSpriteExtra* interface = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png"),
         this,
@@ -16,34 +16,39 @@ void PatchCell::init(const size_t index, Patch* patch) {
     BetterTextArea<false>* description = BetterTextArea<false>::create("chatFont.fnt", patch->m_description, 1, this->m_width - 80);
     CCLabelBMFont* name = CCLabelBMFont::create(patch->m_name.c_str(), "goldFont.fnt");
     CCMenu* toggleMenu = CCMenu::create();
+    CCMenuItemToggler* toggle = GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, { 0, 0 }, this, nullptr, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);
+    const CCSize& nameSize = name->getContentSize();
+    const CCSize& interfaceSize = interface->getContentSize();
+    const CCSize& toggleSize = toggle->getContentSize();
     this->m_patch = patch;
 
     if (index & 1) {
-        this->m_backgroundLayer->setColor(ccc3(0xC2, 0x72, 0x3E));
+        this->m_backgroundLayer->setColor({ 0xC2, 0x72, 0x3E });
     } else {
-        this->m_backgroundLayer->setColor(ccc3(0xA1, 0x58, 0x2C));
+        this->m_backgroundLayer->setColor({ 0xA1, 0x58, 0x2C });
     }
 
-    GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, {
-        this->m_width - 30,
-        this->m_height - 48
-    }, this, this->m_mainLayer, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);
-
-    name->setScale(0.7f);
-    name->setAnchorPoint({ 0, 1 });
-    name->setPosition({ 15, this->m_height - 10 });
-    interface->setSizeMult(1.5f);
-    interfaceMenu->setScale(0.7f);
-    interfaceMenu->setAnchorPoint({ 0, 0 });
-    interfaceMenu->setPosition({ 27 + name->getContentSize().width * 0.7f, this->m_height - 21 });
+    name->setPosition({ 0, 0 });
+    name->setAnchorPoint({ 0, 0 });
+    interface->setPosition({ nameSize.width + interfaceSize.width / 2 + 5, interface->getContentSize().height / 2 });
+    topRow->setScale(0.7f);
+    topRow->setAnchorPoint({ 0, 1 });
+    topRow->setPosition({ 15, this->m_height - 8 });
+    topRow->setContentSize({ this->m_width - 80, nameSize.height });
+    topRow->setLayout(RowLayout::create());
+    topRow->addChild(name);
+    topRow->addChild(interface);
     description->setMaxLines(2);
-    description->setPosition({ 15, name->getPositionY() - name->getContentSize().height + 5 });
-    interfaceMenu->addChild(interface);
+    description->setPosition({ 15, this->m_height - nameSize.height - 5 });
+    description->setAnchorPoint({ 0, 1 });
+    toggle->setPosition(toggleSize / 2);
+    toggleMenu->setPosition(CCSize({ this->m_width - toggleSize.width / 2 - 5, this->m_height / 2 }) - toggleSize / 2);
+    toggleMenu->setContentSize(toggleSize);
+    this->m_mainLayer->setContentSize({ this->m_width, this->m_height });
 
     this->m_backgroundLayer->setOpacity(0xFF);
-    this->m_mainLayer->addChild(name);
+    this->m_mainLayer->addChild(topRow);
     this->m_mainLayer->addChild(description);
-    this->m_mainLayer->addChild(interfaceMenu);
     this->m_mainLayer->addChild(toggleMenu);
     this->m_mainLayer->setVisible(true);
 
