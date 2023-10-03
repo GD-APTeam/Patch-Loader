@@ -2,9 +2,14 @@
 
 #include "../includes.hpp"
 #include "../objects/Patch.hpp"
+#include "../objects/BetterTextArea.hpp"
 
 struct PatchInterface : public geode::Popup<Patch*> {
-    static PatchInterface* create(Patch* patch);
+    static PatchInterface* instance;
+
+    static void scene(Patch* patch);
+
+    virtual void onClose(CCObject* sender) override;
 protected:
     virtual bool setup(Patch* patch) override;
 private:

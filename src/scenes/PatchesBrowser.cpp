@@ -5,6 +5,10 @@ PatchesBrowser* PatchesBrowser::instance = nullptr;
 void PatchesBrowser::scene() {
     if (PatchesBrowser::instance) {
         PatchesBrowser::instance->exitLayer(nullptr);
+
+        if (PatchInterface::instance) {
+            PatchInterface::instance->onClose(nullptr);
+        }
     } else {
         PatchesBrowser* browser = new PatchesBrowser();
 
