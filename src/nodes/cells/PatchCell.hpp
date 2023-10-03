@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../../includes.hpp"
+#include "../BetterTextArea.hpp" 
 #include "../../objects/Patch.hpp"
 #include "../../scenes/PatchInterface.hpp" 
-#include "../../objects/BetterTextArea.hpp" 
 
 struct PatchCell : public TableViewCell {
     static PatchCell* create(const char* name, const CCSize& size);

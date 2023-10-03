@@ -3,7 +3,7 @@
 #include "../includes.hpp"
 #include "../objects/PatchStorage.hpp"
 #include "../scenes/PatchInterface.hpp"
-#include "../lists/views/PatchesListView.hpp"
+#include "../nodes/views/PatchesListView.hpp"
 
 struct PatchesBrowser : public GJDropDownLayer {
     static PatchesBrowser* instance;
