@@ -2,7 +2,7 @@
 
 #include "../includes.hpp"
 #include "../objects/Patch.hpp"
-#include "../nodes/BetterTextArea.hpp"
+#include "../nodes/SimpleTextArea.hpp"
 
 struct PatchInterface : public geode::Popup<Patch*> {
     static PatchInterface* instance;

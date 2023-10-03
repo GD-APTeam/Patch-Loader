@@ -13,7 +13,7 @@ void PatchCell::init(const size_t index, Patch* patch) {
         this,
         menu_selector(PatchCell::onInterface)
     );
-    BetterTextArea<false>* description = BetterTextArea<false>::create("chatFont.fnt", patch->m_description, 1, this->m_width - 80);
+    SimpleTextArea* description = SimpleTextArea::create("chatFont.fnt", patch->m_description, 1, this->m_width - 80);
     CCLabelBMFont* name = CCLabelBMFont::create(patch->m_name.c_str(), "goldFont.fnt");
     CCMenu* toggleMenu = CCMenu::create();
     CCMenuItemToggler* toggle = GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, { 0, 0 }, this, nullptr, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);

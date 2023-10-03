@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../includes.hpp"
-#include "../BetterTextArea.hpp" 
+#include "../SimpleTextArea.hpp" 
 #include "../../objects/Patch.hpp"
 #include "../../scenes/PatchInterface.hpp" 
 

@@ -18,7 +18,7 @@ void PatchInterface::scene(Patch* patch) {
 bool PatchInterface::setup(Patch* patch) {
     const CCSize& winSize = CCDirector::sharedDirector()->getWinSize();
     const CCSize& size = this->m_bgSprite->getContentSize();
-    BetterTextArea<false>* description = BetterTextArea<false>::create("chatFont.fnt", patch->m_description, 1, size.width - 60);
+    SimpleTextArea* description = SimpleTextArea::create("chatFont.fnt", patch->m_description, 1, size.width - 60);
     CCScale9Sprite* descriptionBg = CCScale9Sprite::create("square02b_001.png", CCRect(0, 0, 80, 80));
 
     this->m_patch = patch;
