@@ -10,6 +10,4 @@ protected:
     virtual void setupList() override;
     virtual TableViewCell* getListCell(const char* key) override;
     virtual void loadCell(TableViewCell* cell, const int index) override;
-private:
-    size_t m_renderIndex;
 };
