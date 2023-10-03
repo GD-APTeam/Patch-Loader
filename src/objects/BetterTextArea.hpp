@@ -8,8 +8,8 @@ using CCLabel = std::conditional_t<TTF, CCLabelTTF, CCLabelBMFont>;
 template<bool TTF>
 struct BetterTextArea : public CCNode {
 
-    static BetterTextArea* create(const std::string& font, const std::string& text, const float scale) {
-        return BetterTextArea::create<TTF>(font, text, scale, 0, false);
+    static BetterTextArea* create(const std::string& font, const std::string& text, const float scale = 1) {
+        return BetterTextArea::create<TTF>(font, text, scale, 500, false);
     }
 
     static BetterTextArea* create(const std::string& font, const std::string& text, const float scale, const float width) {
@@ -20,6 +20,16 @@ struct BetterTextArea : public CCNode {
         this->m_font = font;
 
         this->updateContents();
+    }
+
+    void setAlignment(const CCTextAlignment alignment) {
+        this->m_alignment = alignment;
+
+        this->updateContents();
+    }
+
+    CCTextAlignment getAlignment() {
+        return this->m_alignment;
     }
 
     std::string getFont() {
@@ -54,7 +64,7 @@ struct BetterTextArea : public CCNode {
         this->m_artificialWidth = true;
 
         this->setContentSize({ width, this->getContentSize().height });
-        this->m_container->setContentSize({ width, this->m_container->getContentSize().height });
+        this->m_container->setContentSize(this->getContentSize());
     }
 
     float getWidth() {
@@ -109,6 +119,7 @@ private:
     std::string m_font;
     std::string m_text;
     std::vector<CCLabel<TTF>*> m_lines;
+    CCTextAlignment m_alignment;
     size_t m_maxLines;
     float m_scale;
     float m_lineHeight;
@@ -124,6 +135,7 @@ private:
         this->m_artificialWidth = artificialWidth;
         this->m_container = CCMenu::create();
 
+        this->setAnchorPoint({ 0.5f, 0.5f });
         this->m_container->setPosition({ 0, 0 });
         this->m_container->setAnchorPoint({ 0, 1 });
         this->m_container->setContentSize({ width, 0 });
@@ -160,7 +172,6 @@ private:
 
         for (const char c : this->m_text) {
             if (this->m_maxLines && this->m_lines.size() > this->m_maxLines) {
-                std::cout << this->m_lines.size() << std::endl;
                 CCLabel<TTF>* last = this->m_lines.at(this->m_maxLines - 1);
                 const std::string text = last->getString();
 
@@ -204,23 +215,40 @@ private:
     void updateContents() {
         this->updateLines();
         const size_t lineCount = this->m_lines.size();
+        const float width = this->getWidth();
 
         if (lineCount > 0) {
             this->m_lineHeight = this->m_lines.back()->getContentSize().height * this->m_scale;
         } else {
-            this->m_lineHeight = this->m_scale;
+            this->m_lineHeight = 0;
         }
 
         float height = this->m_lineHeight * lineCount + this->m_linePadding * (lineCount - 1);
 
-        this->setContentSize({ this->m_artificialWidth ? this->getWidth() : 500, height });
+        this->setContentSize({ width, height });
         this->m_container->setContentSize(this->getContentSize());
         this->m_container->removeAllChildren();
 
         height -= this->m_lineHeight;
 
         for (CCLabel<TTF>* line : this->m_lines) {
-            line->setPosition({ 0, height + line->getPositionY() });
+            const float y = height + line->getPositionY();
+
+            switch (this->m_alignment) {
+                case kCCTextAlignmentLeft: {
+                    line->setAnchorPoint({ 0, 0 });
+                    line->setPosition({ 0, y });
+                } break;
+                case kCCTextAlignmentCenter: {
+                    line->setAnchorPoint({ 0.5f, 0 });
+                    line->setPosition({ width / 2, y });
+                } break;
+                case kCCTextAlignmentRight: {
+                    line->setAnchorPoint({ 1, 0 });
+                    line->setPosition({ width, y });
+                } break;
+            }
+
             this->m_container->addChild(line);
         }
     }
