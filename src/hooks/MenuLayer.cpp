@@ -9,9 +9,9 @@ class $modify(MenuLayerExtra, MenuLayer) {
         if (MenuLayer::init()) {
             CCMenu* menu = CCMenu::create();
             CCDirector* director = CCDirector::sharedDirector();
-            CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_starBtn_001.png");
+            CCSprite* sprite = CCSprite::createWithSpriteFrameName("GJ_rewardBtn_001.png");
 
-            sprite->setScale(0.7f);
+            sprite->setScale(0.6f);
             menu->addChild(CCMenuItemSpriteExtra::create(sprite, this, menu_selector(MenuLayerExtra::onPatchesClicked)));
             menu->setPosition({ director->getScreenRight() - 18, director->getScreenTop() - 18 });
             this->addChild(menu);
