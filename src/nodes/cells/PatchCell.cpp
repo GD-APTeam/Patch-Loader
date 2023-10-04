@@ -14,10 +14,10 @@ void PatchCell::init(const size_t index, Patch* patch) {
         menu_selector(PatchCell::onInterface)
     );
     SimpleTextArea* description = SimpleTextArea::create("chatFont.fnt", patch->m_description, 1, this->m_width - 80);
-    CCLabelBMFont* name = CCLabelBMFont::create(patch->m_name.c_str(), "goldFont.fnt");
+    CCLabelBMFont* nameNode = CCLabelBMFont::create(patch->m_name.c_str(), "goldFont.fnt");
     CCMenu* toggleMenu = CCMenu::create();
     CCMenuItemToggler* toggle = GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, { 0, 0 }, this, nullptr, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);
-    const CCSize& nameSize = name->getContentSize();
+    const CCSize& nameSize = nameNode->getContentSize();
     const CCSize& interfaceSize = interface->getContentSize();
     const CCSize& toggleSize = toggle->getContentSize();
     this->m_patch = patch;
@@ -28,15 +28,15 @@ void PatchCell::init(const size_t index, Patch* patch) {
         this->m_backgroundLayer->setColor({ 0xA1, 0x58, 0x2C });
     }
 
-    name->setPosition({ 0, 0 });
-    name->setAnchorPoint({ 0, 0 });
+    nameNode->setPosition({ 0, 0 });
+    nameNode->setAnchorPoint({ 0, 0 });
     interface->setPosition({ nameSize.width + interfaceSize.width / 2 + 5, interface->getContentSize().height / 2 });
     topRow->setScale(0.7f);
     topRow->setAnchorPoint({ 0, 1 });
     topRow->setPosition({ 15, this->m_height - 8 });
     topRow->setContentSize({ this->m_width - 80, nameSize.height });
     topRow->setLayout(RowLayout::create());
-    topRow->addChild(name);
+    topRow->addChild(nameNode);
     topRow->addChild(interface);
     description->setMaxLines(2);
     description->setPosition({ 15, this->m_height - nameSize.height - 5 });
