@@ -58,7 +58,7 @@ void PatchStorage::save() {
     JSON storage = JSON::array();
 
     for (Patch& patch : this->m_patches) {
-        storage.push_back(patch.toJson());
+        storage.push_back(patch);
     }
 
     file << storage.dump(PatchStorage::m_indent);

@@ -52,6 +52,15 @@ bool SubPatch::isValidBytes(const JSON& bytes) {
     }
 }
 
+SubPatch::operator JSON() {
+    return JSON {
+        { "label", this->m_label },
+        { "bytes", this->m_bytes },
+        { "address", this->m_address },
+        { "cocos", this->m_cocos }
+    };
+}
+
 SubPatch::SubPatch(const bool valid) : BasePatch(valid) { }
 
 void SubPatch::apply() {
@@ -60,15 +69,4 @@ void SubPatch::apply() {
 
 void SubPatch::revert() {
     WriteProcessMemory(gd::process, this->m_realAddress, this->m_original.data(), this->m_original.size(), nullptr);
-}
-
-JSON SubPatch::toJson() {
-    JSON patch;
-
-    patch["label"] = this->m_label;
-    patch["bytes"] = this->m_bytes;
-    patch["address"] = this->m_address;
-    patch["cocos"] = this->m_cocos;
-
-    return patch;
 }

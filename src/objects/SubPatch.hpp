@@ -11,7 +11,7 @@ enum PatchType {
     COLOR,
 };
 
-struct SubPatch : public BasePatch {
+struct SubPatch : public CCObject, public BasePatch {
     static SubPatch get(const JSON& object);
     static bool isValidBytes(const JSON& bytes);
 
@@ -22,11 +22,13 @@ struct SubPatch : public BasePatch {
     std::vector<std::byte> m_bytes;
     PatchRange m_range;
 
-    SubPatch(const bool valid);
+    virtual operator JSON() override;
+
     virtual void apply() override;
     virtual void revert() override;
-    virtual JSON toJson() override;
 private:
     LPVOID m_realAddress;
     std::vector<std::byte> m_original;
+
+    SubPatch(const bool valid);
 };

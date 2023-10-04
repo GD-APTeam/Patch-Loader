@@ -31,6 +31,16 @@ Patch Patch::get(const JSON& object) {
     return Patch(false);
 }
 
+Patch::operator JSON() {
+    return JSON {
+        { "name", this->m_name },
+        { "description", this->m_description },
+        { "restart", this->m_restart },
+        { "enabled", this->m_enabled },
+        { "patches", std::vector<JSON>(this->m_patches.begin(), this->m_patches.end()) }
+    };
+}
+
 Patch::Patch(const bool valid) : BasePatch(valid) {
     this->retain();
 }
@@ -53,19 +63,4 @@ void Patch::revert() {
 
         this->m_enabled = false;
     }
-}
-
-JSON Patch::toJson() {
-    JSON patch;
-
-    patch["name"] = this->m_name;
-    patch["description"] = this->m_description;
-    patch["restart"] = this->m_restart;
-    patch["enabled"] = this->m_enabled;
-
-    for (SubPatch subPatch : this->m_patches) {
-        patch["patches"].push_back(subPatch.toJson());
-    }
-
-    return patch;
 }

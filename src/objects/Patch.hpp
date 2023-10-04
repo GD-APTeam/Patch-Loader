@@ -13,9 +13,10 @@ struct Patch : public CCObject, public BasePatch {
     bool m_restart;
     bool m_enabled;
 
+    operator JSON();
+
     virtual void apply() override;
     virtual void revert() override;
-    virtual JSON toJson() override;
 private:
     Patch(const bool valid);
 };

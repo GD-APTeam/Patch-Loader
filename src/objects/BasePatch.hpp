@@ -7,9 +7,10 @@ struct BasePatch {
 
     bool m_isValid;
 
+    virtual operator JSON() = 0;
+
     virtual void apply() = 0;
     virtual void revert() = 0;
-    virtual JSON toJson() = 0;
 protected:
     BasePatch(const bool valid);
 };
