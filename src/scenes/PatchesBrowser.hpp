@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../includes.hpp"
+#include "../utils/converters.hpp"
 #include "../objects/PatchStorage.hpp"
 #include "../scenes/PatchInterface.hpp"
 #include "../nodes/views/PatchesListView.hpp"

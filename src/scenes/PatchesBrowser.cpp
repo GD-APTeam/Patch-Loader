@@ -32,13 +32,7 @@ void PatchesBrowser::scene() {
 }
 
 void PatchesBrowser::customSetup() {
-    CCArray* patches = CCArray::create();
-
-    for (Patch& patch : PatchStorage::sharedState()->m_patches) {
-        patches->addObject(&patch);
-    }
-
-    this->m_listLayer->addChild(PatchesListView::create(patches, { 356, 220 }));
+    this->m_listLayer->addChild(PatchesListView::create(converters::toCCArray(PatchStorage::sharedState()->m_patches), { 356, 220 }));
 }
 
 void PatchesBrowser::exitLayer(CCObject* sender) {
