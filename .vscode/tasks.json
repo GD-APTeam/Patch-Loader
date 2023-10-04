@@ -4,7 +4,7 @@
     {
       "label": "Patch Loader: Debug",
       "type": "shell",
-      "command": "taskkill /IM 'GeometryDash.exe' /F; cmake --build build --config RelWithDebInfo --target ALL_BUILD; explorer steam://rungameid/322170",
+      "command": "taskkill /IM 'GeometryDash.exe' /F; cmake --build build --config RelWithDebInfo --target ALL_BUILD; if ($?) { explorer steam://rungameid/322170 }",
       "group": {
         "kind": "build",
         "isDefault": true
