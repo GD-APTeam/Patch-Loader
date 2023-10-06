@@ -1,12 +1,10 @@
 #include "SimpleTextArea.hpp"
 
-using namespace geode::prelude;
-
-SimpleTextArea* SimpleTextArea::create(const std::string& font, const std::string& text, const float scale = 1) {
-    return SimpleTextArea::create(font, text, scale, 500, false);
+SimpleTextArea* SimpleTextArea::create(const std::string& text, const std::string& font, const float scale) {
+    return SimpleTextArea::create(font, text, scale, CCDirector::sharedDirector()->getWinSize().width / 2, false);
 }
 
-SimpleTextArea* SimpleTextArea::create(const std::string& font, const std::string& text, const float scale, const float width) {
+SimpleTextArea* SimpleTextArea::create(const std::string& text, const std::string& font, const float scale, const float width) {
     return SimpleTextArea::create(font, text, scale, width, true);
 }
 
@@ -30,13 +28,14 @@ SimpleTextArea::SimpleTextArea(const std::string& font, const std::string& text,
     this->m_maxLines = 0;
     this->m_scale = scale;
     this->m_linePadding = 0;
+    this->m_color = WHITE_4B;
     this->m_alignment = kCCTextAlignmentLeft;
     this->m_artificialWidth = artificialWidth;
     this->m_container = CCMenu::create();
 
-    this->setAnchorPoint({ 0.5f, 0.5f });
-    this->m_container->setPosition({ 0, 0 });
-    this->m_container->setAnchorPoint({ 0, 1 });
+    this->setAnchorPoint(CENTER);
+    this->m_container->setPosition(ZERO_POINT);
+    this->m_container->setAnchorPoint(TOP_LEFT);
     this->m_container->setContentSize({ width, 0 });
 
     this->addChild(this->m_container);
@@ -53,14 +52,14 @@ std::string SimpleTextArea::getFont() {
     return this->m_font;
 }
 
-void SimpleTextArea::setColor(const ccColor3B color) {
-    for (CCLabelBMFont* line : this->m_lines) {
-        line->setColor(color);
-    }
+void SimpleTextArea::setColor(const ccColor4B& color) {
+    this->m_color = color;
+
+    this->updateContents();
 }
 
-ccColor3B SimpleTextArea::getColor() {
-    return this->m_lines.at(0)->getColor();
+ccColor4B SimpleTextArea::getColor() {
+    return this->m_color;
 }
 
 void SimpleTextArea::setAlignment(const CCTextAlignment alignment) {
@@ -98,6 +97,7 @@ void SimpleTextArea::setWidth(const float width) {
 
     this->setContentSize({ width, this->getContentSize().height });
     this->m_container->setContentSize(this->getContentSize());
+    this->updateContents();
 }
 
 float SimpleTextArea::getWidth() {
@@ -141,6 +141,8 @@ CCLabelBMFont* SimpleTextArea::createLabel(const std::string& text, const float 
 
     label->setScale(this->m_scale);
     label->setPosition({ 0, top });
+    label->setColor({ this->m_color.r, this->m_color.g, this->m_color.b });
+    label->setOpacity(this->m_color.a);
 
     return label;
 }
@@ -218,15 +220,15 @@ void SimpleTextArea::updateContents() {
 
         switch (this->m_alignment) {
             case kCCTextAlignmentLeft: {
-                line->setAnchorPoint({ 0, 1 });
+                line->setAnchorPoint(TOP_LEFT);
                 line->setPosition({ 0, y });
             } break;
             case kCCTextAlignmentCenter: {
-                line->setAnchorPoint({ 0.5f, 1 });
+                line->setAnchorPoint(TOP_CENTER);
                 line->setPosition({ width / 2, y });
             } break;
             case kCCTextAlignmentRight: {
-                line->setAnchorPoint({ 1, 1 });
+                line->setAnchorPoint(TOP_RIGHT);
                 line->setPosition({ width, y });
             } break;
         }

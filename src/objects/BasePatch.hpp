@@ -3,8 +3,6 @@
 #include "../includes.hpp"
 
 struct BasePatch {
-    static HANDLE m_hProcess;
-
     bool m_isValid;
 
     virtual operator JSON() = 0;

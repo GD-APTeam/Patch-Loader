@@ -2,7 +2,9 @@
 
 #include "../includes.hpp"
 #include "../objects/Patch.hpp"
-#include "../nodes/SimpleTextArea.hpp"
+#include "../utils/converters.hpp"
+#include "../nodes/SimpleTextContainer.hpp"
+#include "../nodes/views/SubPatchesListView.hpp"
 
 struct PatchInterface : public geode::Popup<Patch*> {
     static PatchInterface* instance;

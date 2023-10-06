@@ -16,25 +16,25 @@ void PatchInterface::scene(Patch* patch) {
 }
 
 bool PatchInterface::setup(Patch* patch) {
+    this->m_patch = patch;
     const CCSize& winSize = CCDirector::sharedDirector()->getWinSize();
     const CCSize& size = this->m_bgSprite->getContentSize();
-    SimpleTextArea* description = SimpleTextArea::create("chatFont.fnt", patch->m_description, 1, size.width - 60);
-    CCScale9Sprite* descriptionBg = CCScale9Sprite::create("square02b_001.png", CCRect(0, 0, 80, 80));
+    SimpleTextContainer* description = SimpleTextContainer::create({ size.width - 40, 55 }, patch->m_description);
+    GJCommentListLayer* subPatchesContainer = GJCommentListLayer::create(SubPatchesListView::create(converters::toCCArray(patch->m_patches), {
+        size.width - 60,
+        160
+    }), "patches", LIST_AREA_4B, size.width - 60, 160, false);
 
-    this->m_patch = patch;
     this->setTitle(patch->m_name);
 
-    descriptionBg->setAnchorPoint({ 0.5, 1 });
-    descriptionBg->setContentSize({ size.width - 40, description->getContentSize().height + 20 });
-    descriptionBg->setColor({ 0x82, 0x40, 0x21 });
-    descriptionBg->setPosition({ winSize.width / 2, this->m_title->getPositionY() - this->m_title->getContentSize().height / 2 - 5 });
-    description->setMaxLines(2);
-    description->setAlignment(kCCTextAlignmentCenter);
-    description->setAnchorPoint({ 0, 0 });
-    description->setPosition({ 10, 10 });
+    description->setAnchorPoint(TOP_CENTER);
+    description->setPosition({ winSize.width / 2, this->m_title->getPositionY() - this->m_title->getContentSize().height / 2 - 5 });
+    description->m_textArea->setAlignment(kCCTextAlignmentCenter);
+    subPatchesContainer->setAnchorPoint(BOTTOM_LEFT);
+    subPatchesContainer->setPosition({ winSize.width / 2 - subPatchesContainer->getContentSize().width / 2, 35 });
 
-    descriptionBg->addChild(description);
-    this->m_mainLayer->addChild(descriptionBg);
+    this->m_mainLayer->addChild(subPatchesContainer);
+    this->m_mainLayer->addChild(description);
 
     return true;
 }

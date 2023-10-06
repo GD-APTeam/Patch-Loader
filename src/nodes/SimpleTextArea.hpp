@@ -7,6 +7,7 @@ struct SimpleTextArea : public CCNode {
     std::string m_font;
     std::string m_text;
     std::vector<CCLabelBMFont*> m_lines;
+    ccColor4B m_color;
     CCTextAlignment m_alignment;
     size_t m_maxLines;
     float m_scale;
@@ -14,13 +15,13 @@ struct SimpleTextArea : public CCNode {
     float m_linePadding;
     bool m_artificialWidth;
 public:
-    static SimpleTextArea* create(const std::string& font, const std::string& text, const float scale);
-    static SimpleTextArea* create(const std::string& font, const std::string& text, const float scale, const float width);
+    static SimpleTextArea* create(const std::string& text, const std::string& font = "chatFont.fnt", const float scale = 1);
+    static SimpleTextArea* create(const std::string& text, const std::string& font, const float scale, const float width);
 
     void setFont(const std::string& font);
     std::string getFont();
-    void setColor(const ccColor3B color);
-    ccColor3B getColor();
+    void setColor(const ccColor4B& color);
+    ccColor4B getColor();
     void setAlignment(const CCTextAlignment alignment);
     CCTextAlignment getAlignment();
     void setText(const std::string& text);
@@ -45,4 +46,4 @@ private:
     float calculateOffset(CCLabelBMFont* label);
     void updateLines();
     void updateContents();
-    };
+};

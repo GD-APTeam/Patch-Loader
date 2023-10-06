@@ -13,34 +13,35 @@ void PatchCell::init(const size_t index, Patch* patch) {
         this,
         menu_selector(PatchCell::onInterface)
     );
-    SimpleTextArea* description = SimpleTextArea::create("chatFont.fnt", patch->m_description, 1, this->m_width - 80);
+    SimpleTextArea* description = SimpleTextArea::create(patch->m_description);
     CCLabelBMFont* nameNode = CCLabelBMFont::create(patch->m_name.c_str(), "goldFont.fnt");
     CCMenu* toggleMenu = CCMenu::create();
-    CCMenuItemToggler* toggle = GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, { 0, 0 }, this, nullptr, 1, 1, 160, { 0, 0 }, "", false, 0, nullptr);
+    CCMenuItemToggler* toggle = GameToolbox::createToggleButton("", menu_selector(PatchCell::onEnable), patch->m_enabled, toggleMenu, BOTTOM_LEFT, this, nullptr, 1, 1, 160, BOTTOM_LEFT, "", false, 0, nullptr);
     const CCSize& nameSize = nameNode->getContentSize();
     const CCSize& interfaceSize = interface->getContentSize();
     const CCSize& toggleSize = toggle->getContentSize();
     this->m_patch = patch;
 
     if (index & 1) {
-        this->m_backgroundLayer->setColor({ 0xC2, 0x72, 0x3E });
+        this->m_backgroundLayer->setColor(LIGHT_CELL);
     } else {
-        this->m_backgroundLayer->setColor({ 0xA1, 0x58, 0x2C });
+        this->m_backgroundLayer->setColor(DARK_CELL);
     }
 
-    nameNode->setPosition({ 0, 0 });
-    nameNode->setAnchorPoint({ 0, 0 });
+    nameNode->setPosition(BOTTOM_LEFT);
+    nameNode->setAnchorPoint(BOTTOM_LEFT);
     interface->setPosition({ nameSize.width + interfaceSize.width / 2 + 5, interface->getContentSize().height / 2 });
     topRow->setScale(0.7f);
-    topRow->setAnchorPoint({ 0, 1 });
+    topRow->setAnchorPoint(TOP_LEFT);
     topRow->setPosition({ 15, this->m_height - 8 });
     topRow->setContentSize({ this->m_width - 80, nameSize.height });
     topRow->setLayout(RowLayout::create());
     topRow->addChild(nameNode);
     topRow->addChild(interface);
     description->setMaxLines(2);
+    description->setWidth(this->m_width - 80);
     description->setPosition({ 15, this->m_height - nameSize.height - 5 });
-    description->setAnchorPoint({ 0, 1 });
+    description->setAnchorPoint(TOP_LEFT);
     toggle->setPosition(toggleSize / 2);
     toggleMenu->setPosition(CCSize({ this->m_width - toggleSize.width / 2 - 5, this->m_height / 2 }) - toggleSize / 2);
     toggleMenu->setContentSize(toggleSize);

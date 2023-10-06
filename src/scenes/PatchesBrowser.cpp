@@ -21,7 +21,7 @@ void PatchesBrowser::scene() {
 
             if (playLayer) {
                 playLayer->pauseGame(false);
-                browser->setZOrder(1000);
+                browser->setZOrder(INT32_MAX);
             }
 
             CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
