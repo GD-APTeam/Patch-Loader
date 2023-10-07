@@ -16,4 +16,6 @@ protected:
     virtual bool setup(Patch* patch) override;
 private:
     Patch* m_patch;
+
+    void finishedClosing();
 };

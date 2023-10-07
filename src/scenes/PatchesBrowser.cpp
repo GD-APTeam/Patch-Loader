@@ -13,6 +13,7 @@ void PatchesBrowser::scene() {
         PatchesBrowser* browser = new PatchesBrowser();
 
         if (browser && browser->init("Installed patches", 220)) {
+            CCScene* runningScene = CCDirector::sharedDirector()->getRunningScene();
             PlayLayer* playLayer = GameManager::sharedState()->getPlayLayer();
             PatchesBrowser::instance = browser;
 
@@ -20,11 +21,12 @@ void PatchesBrowser::scene() {
             browser->showLayer(false);
 
             if (playLayer) {
-                playLayer->pauseGame(false);
-                browser->setZOrder(INT32_MAX);
+                playLayer->pauseGame(false);                
             }
 
-            CCDirector::sharedDirector()->getRunningScene()->addChild(browser);
+            browser->setZOrder(runningScene->getHighestChildZ() + 1);
+
+            runningScene->addChild(browser);
         } else {
             CC_SAFE_DELETE(browser);
         }

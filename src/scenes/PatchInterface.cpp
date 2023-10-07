@@ -6,10 +6,19 @@ void PatchInterface::scene(Patch* patch) {
     PatchInterface* interface = new PatchInterface();
 
     if (interface && interface->init(400, 280, patch)) {
+        CCDirector* director = CCDirector::sharedDirector();
+        CCScene* runningScene = director->getRunningScene();
         PatchInterface::instance = interface;
 
         interface->autorelease();
-        interface->show();
+        interface->setZOrder(runningScene->getHighestChildZ() + 1);
+        interface->stopAllActions();
+        interface->setOpacity(0);
+        interface->runAction(CCFadeTo::create(0.5f, 125));
+        interface->m_mainLayer->stopAllActions();
+        interface->m_mainLayer->setPosition({ 0, director->getWinSize().height });
+        interface->m_mainLayer->runAction(CCEaseSineOut::create(CCMoveTo::create(0.5f, { 0, 0 })));
+        runningScene->addChild(interface);
     } else {
         CC_SAFE_DELETE(interface);
     }
@@ -39,8 +48,19 @@ bool PatchInterface::setup(Patch* patch) {
     return true;
 }
 
-void PatchInterface::onClose(CCObject* sender) {
+void PatchInterface::onClose(CCObject*) {
     PatchInterface::instance = nullptr;
 
-    geode::Popup<Patch*>::onClose(sender);
+    this->stopAllActions();
+    this->runAction(CCFadeTo::create(0.5f, 0));
+    this->m_mainLayer->stopAllActions();
+    this->m_mainLayer->runAction(CCSequence::create(
+        CCEaseSineOut::create(CCMoveTo::create(0.5f, { 0, CCDirector::sharedDirector()->getWinSize().height })),
+        CCCallFunc::create(this, callfunc_selector(PatchInterface::finishedClosing)),
+        nullptr
+    ));
+}
+
+void PatchInterface::finishedClosing() {
+    geode::Popup<Patch*>::onClose(nullptr);
 }
