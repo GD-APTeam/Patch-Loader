@@ -1,27 +1,24 @@
 #include "SubPatchCell.hpp"
 
-SubPatchCell::SubPatchCell(const char* name, const CCSize& size) : TableViewCell(name, size.width, size.height) { }
+SubPatchCell::SubPatchCell(const char* name, const CCSize& size) : StatsCell(name, size.width, size.height) { }
 
-void SubPatchCell::initWithIndex(const size_t index, SubPatch* patch) {
-    this->patch = patch;
-    CCLabelBMFont* label = CCLabelBMFont::create(patch->m_label.c_str(), "goldFont.fnt");
+bool SubPatchCell::initWithPatch(const size_t index, SubPatch* patch) {
+    this->m_patch = patch;
+    this->m_label = CCLabelBMFont::create(patch->m_label.c_str(), "goldFont.fnt");
+    this->m_content = CCMenu::create();
 
-    if (index & 1) {
-        this->m_backgroundLayer->setColor(LIGHT_CELL);
-    } else {
-        this->m_backgroundLayer->setColor(DARK_CELL);
-    }
+    this->m_label->setScale(0.7f);
+    this->m_label->setPosition({ 10, this->m_height - 5 });
+    this->m_label->setAnchorPoint(TOP_LEFT);
+    this->m_content->setPosition({ 10, 5 });
+    this->m_content->setContentSize({ this->m_width - 20, this->m_height - this->m_label->getContentSize().height - 5 });
+    this->m_content->setAnchorPoint(TOP_LEFT);
 
-    label->setScale(0.7f);
-    label->setPosition({ 10, this->m_height - 5 });
-    label->setAnchorPoint(TOP_LEFT);
+    this->m_mainLayer->addChild(this->m_label);
+    this->m_mainLayer->addChild(this->m_content);
+    this->m_backgroundLayer->setOpacity(0xFF);
 
-    this->m_mainLayer->addChild(label);
+    this->updateBGColor(index);
 
-    if (this->init()) {
-        this->m_backgroundLayer->setOpacity(0xFF);
-    } else {
-        this->m_mainLayer->setContentSize({ this->m_width, 0 });
-        this->m_mainLayer->setVisible(false);
-    }
+    return this->init();
 }

@@ -4,9 +4,9 @@ PatchCell* PatchCell::create(const char* name, const CCSize& size) {
     return new PatchCell(name, size);
 }
 
-PatchCell::PatchCell(const char* name, const CCSize& size) : TableViewCell(name, size.width, size.height) { }
+PatchCell::PatchCell(const char* name, const CCSize& size) : StatsCell(name, size.width, size.height) { }
 
-void PatchCell::init(const size_t index, Patch* patch) {
+bool PatchCell::init(const size_t index, Patch* patch) {
     CCMenu* topRow = CCMenu::create();
     CCMenuItemSpriteExtra* interface = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png"),
@@ -52,6 +52,8 @@ void PatchCell::init(const size_t index, Patch* patch) {
     this->m_mainLayer->addChild(description);
     this->m_mainLayer->addChild(toggleMenu);
     this->m_mainLayer->setVisible(true);
+
+    return true;
 
     // Slider* slider = Slider::create(this->m_pLayer, menu_selector(PatchCell::onSlider), 1.0f);
     // slider->setBarVisibility(true);

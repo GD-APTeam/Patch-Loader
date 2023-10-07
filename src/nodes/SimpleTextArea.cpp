@@ -188,7 +188,7 @@ void SimpleTextArea::updateLines() {
             line = this->createLabel("", top -= this->calculateOffset(line));
 
             this->m_lines.push_back(line);
-        } else if (this->m_artificialWidth && line->getContentSize().width >= this->getWidth()) {
+        } else if (this->m_artificialWidth && line->getContentSize().width * this->m_scale >= this->getWidth()) {
             line = this->moveOverflow(line, c, top -= this->calculateOffset(line));
         } else {
             const std::string text = line->getString();

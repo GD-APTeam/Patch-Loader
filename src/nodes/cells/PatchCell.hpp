@@ -5,10 +5,10 @@
 #include "../../objects/Patch.hpp"
 #include "../../scenes/PatchInterface.hpp" 
 
-struct PatchCell : public TableViewCell {
+struct PatchCell : public StatsCell {
     static PatchCell* create(const char* name, const CCSize& size);
 
-    void init(const size_t index, Patch* patch);
+    bool init(const size_t index, Patch* patch);
 protected:
     Patch* m_patch;
 

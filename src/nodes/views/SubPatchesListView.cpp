@@ -4,8 +4,6 @@ SubPatchesListView* SubPatchesListView::create(CCArray* data, const CCSize& size
     SubPatchesListView* view = new SubPatchesListView();
 
     if (view && view->init(data, BoomListType::Default, size.width, size.height)) {
-        view->autorelease();
-        
         return view;
     } else {
         CC_SAFE_DELETE(view);
@@ -17,7 +15,7 @@ SubPatchesListView* SubPatchesListView::create(CCArray* data, const CCSize& size
 void SubPatchesListView::setupList() {
     const size_t count = this->m_entries->count();
 
-    this->m_itemSeparation = 70;
+    this->m_itemSeparation = 50;
 
     if (count) {
         this->m_tableView->reloadData();
@@ -51,5 +49,9 @@ TableViewCell* SubPatchesListView::getListCell(const char* key) {
 }
 
 void SubPatchesListView::loadCell(TableViewCell* cell, const int index) {
-    reinterpret_cast<SubPatchBytesCell*>(cell)->initWithIndex(index, reinterpret_cast<SubPatch*>(this->m_entries->objectAtIndex(index)));
+    if (reinterpret_cast<SubPatchBytesCell*>(cell)->initWithPatch(index, reinterpret_cast<SubPatch*>(this->m_entries->objectAtIndex(index)))) {
+        cell->autorelease();
+    } else {
+        cell->release();
+    }
 }
