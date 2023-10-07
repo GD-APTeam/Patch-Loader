@@ -15,7 +15,7 @@ SubPatchesListView* SubPatchesListView::create(CCArray* data, const CCSize& size
 void SubPatchesListView::setupList() {
     const size_t count = this->m_entries->count();
 
-    this->m_itemSeparation = 50;
+    this->m_itemSeparation = 55;
 
     if (count) {
         this->m_tableView->reloadData();
