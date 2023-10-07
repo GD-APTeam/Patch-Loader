@@ -19,7 +19,7 @@ bool SubPatchBytesCell::init() {
 
     textArea->setAnchorPoint(TOP_LEFT);
     textArea->setMaxLines(1);
-    textArea->setColor({ 0xEE, 0xEE, 0xEE, 0xFF });
+    textArea->setColor(DISABLED_4B);
     textArea->setPosition({ 0, this->m_content->getContentSize().height });
 
     this->m_content->addChild(textArea);

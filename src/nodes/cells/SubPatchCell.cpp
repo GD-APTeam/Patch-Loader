@@ -16,8 +16,7 @@ bool SubPatchCell::initWithPatch(const size_t index, SubPatch* patch) {
 
     this->m_mainLayer->addChild(this->m_label);
     this->m_mainLayer->addChild(this->m_content);
-    this->m_backgroundLayer->setOpacity(0xFF);
-
+    this->m_backgroundLayer->setOpacity(FULL_OPACITY);
     this->updateBGColor(index);
 
     return this->init();

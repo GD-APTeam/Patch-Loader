@@ -40,8 +40,8 @@ SubPatch SubPatch::get(const JSON& object) {
 bool SubPatch::isValidBytes(const JSON& bytes) {
     if (bytes.is_array() && bytes.size()) {
         for (const JSON& byte : bytes) {
-            // If any byte is not a number or is greater than 0xFF, it will break memory when applied.
-            if (!byte.is_number_unsigned() || byte > 0xFF) {
+            // If any byte is not a number or is greater than UINT8_MAX, it will break memory when applied.
+            if (!byte.is_number_unsigned() || byte > UINT8_MAX) {
                 return false;
             }
         }

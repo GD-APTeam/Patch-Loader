@@ -10,7 +10,7 @@ PatchRange PatchRange::get(const JSON& object) {
             const size_t sizeValue = size.get<size_t>();
             const int startValue = start.get<int>();
             const int endValue = end.get<int>();
-            const int maxValue = 0x7FFFFFFF >> 8 * (4 - sizeValue);
+            const int maxValue = INT32_MAX >> 8 * (4 - sizeValue);
             const int minValue = -maxValue - 1;
 
             if (sizeValue <= 4 && sizeValue > 0 && endValue > startValue && startValue >= minValue && endValue <= maxValue) {

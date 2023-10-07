@@ -12,11 +12,12 @@ using namespace cocos2d;
 using namespace cocos2d::extension;
 using JSON = nlohmann::json;
 
-#define WHITE_4B { 0xFF, 0xFF, 0xFF, 0xFF }
-#define BROWN_AREA_4B { 0x82, 0x40, 0x21, 0xFF }
-#define LIST_AREA_4B { 0xBF, 0x72, 0x3E, 0xFF }
-#define DARK_CELL { 0xA1, 0x58, 0x2C }
-#define LIGHT_CELL { 0xC2, 0x72, 0x3E }
+#define FULL_OPACITY 0xFF
+
+#define WHITE_4B { 0xFF, 0xFF, 0xFF, FULL_OPACITY }
+#define BROWN_AREA_4B { 0x82, 0x40, 0x21, FULL_OPACITY }
+#define LIST_AREA_4B { 0xBF, 0x72, 0x3E, FULL_OPACITY }
+#define DISABLED_4B { 0xE0, 0xE0, 0xE0, FULL_OPACITY }
 
 #define SPRITE_RECT CCRect(0, 0, 80, 80)
 

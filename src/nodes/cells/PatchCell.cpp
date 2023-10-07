@@ -22,12 +22,6 @@ bool PatchCell::init(const size_t index, Patch* patch) {
     const CCSize& toggleSize = toggle->getContentSize();
     this->m_patch = patch;
 
-    if (index & 1) {
-        this->m_backgroundLayer->setColor(LIGHT_CELL);
-    } else {
-        this->m_backgroundLayer->setColor(DARK_CELL);
-    }
-
     nameNode->setPosition(BOTTOM_LEFT);
     nameNode->setAnchorPoint(BOTTOM_LEFT);
     interface->setPosition({ nameSize.width + interfaceSize.width / 2 + 5, interface->getContentSize().height / 2 });
@@ -47,11 +41,11 @@ bool PatchCell::init(const size_t index, Patch* patch) {
     toggleMenu->setContentSize(toggleSize);
     this->m_mainLayer->setContentSize({ this->m_width, this->m_height });
 
-    this->m_backgroundLayer->setOpacity(0xFF);
     this->m_mainLayer->addChild(topRow);
     this->m_mainLayer->addChild(description);
     this->m_mainLayer->addChild(toggleMenu);
-    this->m_mainLayer->setVisible(true);
+    this->m_backgroundLayer->setOpacity(0xFF);
+    this->updateBGColor(index);
 
     return true;
 
