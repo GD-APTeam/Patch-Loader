@@ -32,7 +32,7 @@ Patch Patch::get(const JSON& object) {
 }
 
 Patch::operator JSON() {
-    return JSON {
+    return {
         { "name", this->m_name },
         { "description", this->m_description },
         { "restart", this->m_restart },
@@ -47,7 +47,7 @@ Patch::Patch(const bool valid) : BasePatch(valid) {
 
 void Patch::apply() {
     if (!this->m_enabled) {
-        for (SubPatch patch : this->m_patches) {
+        for (SubPatch& patch : this->m_patches) {
             patch.apply();
         }
 
@@ -57,7 +57,7 @@ void Patch::apply() {
 
 void Patch::revert() {
     if (this->m_enabled) {
-        for (SubPatch patch : this->m_patches) {
+        for (SubPatch& patch : this->m_patches) {
             patch.revert();
         }
 

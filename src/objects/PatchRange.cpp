@@ -29,7 +29,7 @@ PatchRange PatchRange::get(const JSON& object) {
 }
 
 PatchRange::operator JSON() {
-    return JSON {
+    return {
         { "start", this->m_start },
         { "end", this->m_end },
         { "size", this->m_size }
