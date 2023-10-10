@@ -48,14 +48,6 @@ bool PatchCell::init(const size_t index, Patch* patch) {
     this->updateBGColor(index);
 
     return true;
-
-    // Slider* slider = Slider::create(this->m_pLayer, menu_selector(PatchCell::onSlider), 1.0f);
-    // slider->setBarVisibility(true);
-    // Why is the anchor for sliders hardcoded and the size set to about 1000???
-    // slider->setPosition({ 15.0f + slider->m_fUnknown / 2, 20.0f });
-    // slider->setValue(0);
-    // slider->updateBar();
-    // this->m_pLayer->addChild(slider);
 }
 
 void PatchCell::onEnable(CCObject* sender) {
