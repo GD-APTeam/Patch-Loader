@@ -9,10 +9,10 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
 ```jsonc
 [
   {
-    "name": string, // The name which should be shown in the patch browser
-    "description": string | null, // The description which should be shown in the patch browser
+    "name": string, // The name which should be shown in the patch browser (Max 30 characters)
+    "description": string | null, // The description which should be shown in the patch browser (Max 80 characters)
     "patches": [ // A list of patches which should be applied once enabled
-      "label": string, // The label to identify the patch
+      "label": string, // The label to identify the patch (Max 30 characters)
       "address": uint32_t, // The memory address to write to
       "offsets": uint32_t[] | null, // The offsets to navigate through pointers to get to the memory address
       "cocos": bool | null, // If the patch should be applied to libcocos2d.dll
