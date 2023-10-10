@@ -40,10 +40,14 @@ PatchRange::PatchRange() : BasePatch(false) { }
 
 PatchRange::PatchRange(const bool valid) : BasePatch(valid) { }
 
-void PatchRange::apply(const LPVOID address, const int value) {
-    WriteProcessMemory(gd::process, address, converters::toBytes(this->m_size, std::min(std::max(this->m_start, value), this->m_end)).data(), this->m_size, nullptr);
+void PatchRange::apply() {
+    this->apply(this->m_value);
 }
 
-void PatchRange::apply() { }
+void PatchRange::apply(const int value) {
+    WriteProcessMemory(gd::process, this->m_address, converters::toBytes(this->m_size, this->m_value = std::min(std::max(this->m_start, value), this->m_end)).data(), this->m_size, nullptr);
+}
 
-void PatchRange::revert() { }
+int PatchRange::percentageToRangeValue(const float percentage) {
+    return this->m_start + (this->m_end - this->m_start) * percentage;
+}

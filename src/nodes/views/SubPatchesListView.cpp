@@ -34,7 +34,7 @@ TableViewCell* SubPatchesListView::getListCell(const char* key) {
             return SubPatchBytesCell::create(key, { this->m_width , this->m_itemSeparation });
         }
         case PatchType::RANGE: {
-            return nullptr;
+            return SubPatchRangeCell::create(key, { this->m_width , this->m_itemSeparation });
         }
         case PatchType::CHECKBOX: {
             return nullptr;

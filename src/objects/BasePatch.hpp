@@ -8,7 +8,7 @@ struct BasePatch {
     virtual operator JSON() = 0;
 
     virtual void apply() = 0;
-    virtual void revert() = 0;
+    virtual void revert();
 protected:
     BasePatch(const bool valid);
 };

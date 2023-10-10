@@ -66,7 +66,11 @@ SubPatch::operator JSON() {
 SubPatch::SubPatch(const bool valid) : BasePatch(valid) { }
 
 void SubPatch::apply() {
-    WriteProcessMemory(gd::process, this->m_realAddress, this->m_bytes.data(), this->m_bytes.size(), nullptr);
+    if (this->m_type == PatchType::RANGE) {
+        this->m_range.apply();
+    } else {
+        WriteProcessMemory(gd::process, this->m_realAddress, this->m_bytes.data(), this->m_bytes.size(), nullptr);
+    }
 }
 
 void SubPatch::revert() {

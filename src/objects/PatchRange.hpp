@@ -10,13 +10,16 @@ struct PatchRange : public BasePatch {
     int m_start;
     int m_end;
     size_t m_size;
+    int m_value;
 
     virtual operator JSON() override;
 
     PatchRange();
-    void apply(const LPVOID address, const int value);
     virtual void apply() override;
-    virtual void revert() override;
+    void apply(const int value);
+    int percentageToRangeValue(const float percentage);
 private:
+    LPVOID m_address;
+
     PatchRange(const bool valid);
 };

@@ -8,7 +8,7 @@ Patch Patch::get(const JSON& object) {
         const std::string name = object["name"].get<std::string>();
         const std::string description = object.value("description", "No description was provided.");
 
-        if (name.size() <= 30 && description.size() <= 85) {
+        if (name.size() <= 30 && description.size() <= 80) {
             for (const JSON& subPatch : patches) {
                 const SubPatch subPatchObject = SubPatch::get(subPatch);
 

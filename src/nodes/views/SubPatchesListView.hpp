@@ -3,6 +3,7 @@
 #include "../../includes.hpp"
 #include "../../objects/SubPatch.hpp"
 #include "../cells/SubPatchBytesCell.hpp"
+#include "../cells/SubPatchRangeCell.hpp"
 
 struct SubPatchesListView : public CustomListView {
     static SubPatchesListView* create(CCArray* data, const CCSize& size);
