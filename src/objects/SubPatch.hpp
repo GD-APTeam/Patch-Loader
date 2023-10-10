@@ -3,6 +3,7 @@
 #include "BasePatch.hpp"
 #include "PatchRange.hpp"
 #include "../includes.hpp"
+#include "../utils/converters.hpp"
 
 enum PatchType {
     BYTES,
@@ -16,11 +17,12 @@ struct SubPatch : public CCObject, public BasePatch {
     static bool isValidBytes(const JSON& bytes);
 
     PatchType m_type;
+    PatchRange m_range;
     std::string m_label;
     std::uintptr_t m_address;
-    bool m_cocos;
+    std::vector<std::uintptr_t> m_offsets;
     std::vector<std::byte> m_bytes;
-    PatchRange m_range;
+    bool m_cocos;
 
     virtual operator JSON() override;
 

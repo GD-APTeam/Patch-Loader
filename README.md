@@ -14,6 +14,7 @@ To configure the patch loader, create a JSON file called `patches.json` in the r
     "patches": [ // A list of patches which should be applied once enabled
       "label": string, // The label to identify the patch
       "address": uint32_t, // The memory address to write to
+      "offsets": uint32_t[] | null, // The offsets to navigate through pointers to get to the memory address
       "cocos": bool | null, // If the patch should be applied to libcocos2d.dll
       // The following fields are mutually exclusive, one of them must be present
       "bytes": byte[] | null, // The bytes to write to the memory address

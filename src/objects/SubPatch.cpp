@@ -26,7 +26,8 @@ SubPatch SubPatch::get(const JSON& object) {
         subPatch.m_label = object["label"].get<std::string>();
         subPatch.m_cocos = object.value("cocos", false);
         subPatch.m_address = object["address"].get<std::uintptr_t>();
-        subPatch.m_realAddress = reinterpret_cast<LPVOID>((subPatch.m_cocos ? gd::cocosBase : gd::base) + subPatch.m_address);
+        subPatch.m_offsets = object.value("offsets", std::vector<std::uintptr_t>());
+        subPatch.m_realAddress = converters::toAddress((subPatch.m_cocos ? gd::cocosBase : gd::base) + subPatch.m_address, subPatch.m_offsets);
 
         ReadProcessMemory(gd::process, subPatch.m_realAddress, subPatch.m_original.data(), subPatch.m_original.size(), nullptr);
 
@@ -53,10 +54,11 @@ bool SubPatch::isValidBytes(const JSON& bytes) {
 }
 
 SubPatch::operator JSON() {
-    return JSON {
+    return {
         { "label", this->m_label },
         { "bytes", this->m_bytes },
         { "address", this->m_address },
+        { "offsets", this->m_offsets },
         { "cocos", this->m_cocos }
     };
 }

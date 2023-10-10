@@ -15,4 +15,5 @@ namespace converters {
     }
 
     std::vector<std::byte> toBytes(const size_t size, const int value);
+    LPVOID toAddress(const std::uintptr_t address, const std::vector<std::uintptr_t>& offsets);
 }
